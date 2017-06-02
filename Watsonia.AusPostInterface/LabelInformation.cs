@@ -43,6 +43,6 @@ namespace Watsonia.AusPostInterface
 		/// <value>
 		/// The shipments.
 		/// </value>
-		public List<string> Shipments { get; set; } = new List<string>();
+		public List<string> ShipmentIDs { get; set; } = new List<string>();
 	}
 }
