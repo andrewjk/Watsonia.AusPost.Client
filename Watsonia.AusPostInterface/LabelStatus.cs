@@ -29,6 +29,11 @@ namespace Watsonia.AusPostInterface
 		/// Label generation has completed.
 		/// </summary>
 		[JsonEnumName("AVAILABLE")]
-		Available
+		Available,
+		/// <summary>
+		/// The labels have expired.
+		/// </summary>
+		[JsonEnumName("EXPIRED")]
+		Expired
 	}
 }
