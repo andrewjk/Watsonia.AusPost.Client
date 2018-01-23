@@ -51,11 +51,13 @@
     <Compile Include="AusPost.cs" />
     <Compile Include="DeleteShipmentResponse.cs" />
     <Compile Include="DownloadLabelsResponse.cs" />
+    <Compile Include="GetOrdersResponse.cs" />
     <Compile Include="GetOrderSummaryResponse.cs" />
     <Compile Include="GetOrderSummaryRequest.cs" />
     <Compile Include="CreateLabelsRequest.cs" />
     <Compile Include="CreateLabelsResponse.cs" />
     <Compile Include="GetAccountsResponse.cs" />
+    <Compile Include="GetOrdersRequest.cs" />
     <Compile Include="GetShipmentsResponse.cs" />
     <Compile Include="GetShipmentsRequest.cs" />
     <Compile Include="CreateOrderIncludingShipmentsResponse.cs" />

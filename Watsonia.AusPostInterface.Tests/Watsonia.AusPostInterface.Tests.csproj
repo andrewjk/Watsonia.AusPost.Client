@@ -55,6 +55,7 @@
     <Compile Include="GetOrderSummaryTests.cs" />
     <Compile Include="GetAccountsTests.cs" />
     <Compile Include="DownloadLabelsTests.cs" />
+    <Compile Include="GetOrdersTests.cs" />
     <Compile Include="GetShipmentsTests.cs" />
     <Compile Include="CreateOrderIncludingShipmentsTests.cs" />
     <Compile Include="CreateOrderFromShipmentsTests.cs" />

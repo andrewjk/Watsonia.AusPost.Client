@@ -357,6 +357,56 @@ namespace Watsonia.AusPostInterface
 		}
 
 		/// <summary>
+		/// This interface retrieves information for orders, and the items contained within orders created using the Create Orders interface.
+		/// </summary>
+		/// <param name="accountNumber">The Australia Post account number.</param>
+		/// <param name="username">The Australia Post API username.</param>
+		/// <param name="password">The Australia Post API password.</param>
+		/// <param name="orders">The orders.</param>
+		/// <returns></returns>
+		public async static Task<GetOrdersResponse> GetOrdersAsync(string accountNumber, string username, string password, GetOrdersRequest orders)
+		{
+			string apiUrlPrefix = AusPost.Testing ? AusPost.TestingUrl : AusPost.LiveUrl;
+
+			// Build the query string
+			Dictionary<string, string> queryParams = new Dictionary<string, string>();
+			// HACK: I don't think this works, but I'm not 100% sure:
+			//if (orders.OrderIDs.Any())
+			//{
+			//	queryParams.Add("order_ids", string.Join(",", orders.OrderIDs));
+			//}
+			if (orders.Offset > 0)
+			{
+				queryParams.Add("offset", orders.Offset.ToString());
+			}
+			if (orders.NumberOfOrders > 0)
+			{
+				queryParams.Add("number_of_orders", orders.NumberOfOrders.ToString());
+			}
+			string apiUrl = apiUrlPrefix + "orders?" + string.Join("&", queryParams.Select(p => $"{p.Key}={p.Value}"));
+
+			using (var client = new HttpClient())
+			{
+				// Add authentication headers
+				byte[] apiKey = Encoding.UTF8.GetBytes(username + ":" + password);
+				client.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(apiKey));
+				client.DefaultRequestHeaders.Add("Account-Number", accountNumber);
+
+				// GET the request
+				HttpResponseMessage response = await client.GetAsync(apiUrl);
+
+				// Read the response
+				// TODO: I may actually need to do different things if the status code comes back as e.g. NotFound?
+				string responseJson = await response.Content.ReadAsStringAsync();
+				var result = new GetOrdersResponse();
+				result.FromJson(responseJson);
+				result.Succeeded = response.StatusCode == System.Net.HttpStatusCode.OK;
+
+				return result;
+			}
+		}
+
+		/// <summary>
 		/// This interface retrieves information for shipments, and the items contained within shipments created using the Create Shipments interface.
 		/// </summary>
 		/// <param name="accountNumber">The Australia Post account number.</param>
