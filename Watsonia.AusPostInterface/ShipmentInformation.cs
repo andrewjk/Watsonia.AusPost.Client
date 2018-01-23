@@ -72,6 +72,14 @@ namespace Watsonia.AusPostInterface
 		public MovementType MovementType { get; set; }
 
 		/// <summary>
+		/// The address where the items will be delivered.
+		/// </summary>
+		/// <value>
+		/// To.
+		/// </value>
+		public Recipient To { get; set; } = new Recipient();
+
+		/// <summary>
 		/// Summary pricing information for the shipment.
 		/// </summary>
 		/// <value>
