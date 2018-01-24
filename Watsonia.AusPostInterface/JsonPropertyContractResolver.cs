@@ -73,7 +73,7 @@ namespace Watsonia.AusPostInterface
 						// HACK: I must be missing an easier way here...
 						var prop = instance.GetType().GetProperty(property.UnderlyingName);
 						ICollection e = (ICollection)prop.GetValue(instance);
-						return e.Count > 0;
+						return e != null && e.Count > 0;
 					};
 			}
 
