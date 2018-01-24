@@ -58,7 +58,13 @@ namespace Watsonia.AusPostInterface
 		[Required]
 		[StringLength(40)]
 		[JsonIgnore]
-		public string Line1 { get; set; }
+		public string Line1
+		{
+			get
+			{
+				return this.Lines != null && this.Lines.Length > 0 ? this.Lines[0] : null;
+			}
+		}
 
 		/// <summary>
 		/// The address line 2 of the address.
@@ -68,7 +74,13 @@ namespace Watsonia.AusPostInterface
 		/// </value>
 		[StringLength(40)]
 		[JsonIgnore]
-		public string Line2 { get; set; }
+		public string Line2
+		{
+			get
+			{
+				return this.Lines != null && this.Lines.Length > 1 ? this.Lines[1] : null;
+			}
+		}
 
 		/// <summary>
 		/// The address line 3 of the address.
@@ -78,7 +90,13 @@ namespace Watsonia.AusPostInterface
 		/// </value>
 		[StringLength(40)]
 		[JsonIgnore]
-		public string Line3 { get; set; }
+		public string Line3
+		{
+			get
+			{
+				return this.Lines != null && this.Lines.Length > 2 ? this.Lines[2] : null;
+			}
+		}
 
 		/// <summary>
 		/// The address lines of the address.
@@ -86,13 +104,7 @@ namespace Watsonia.AusPostInterface
 		/// <value>
 		/// The lines.
 		/// </value>
-		public string[] Lines
-		{
-			get
-			{
-				return string.Join("\n", this.Line1, this.Line2, this.Line3).Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
-			}
-		}
+		public string[] Lines { get; set; }
 
 		/// <summary>
 		/// The suburb for the address.
