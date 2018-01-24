@@ -14,18 +14,22 @@ namespace Watsonia.AusPostInterface
 		/// <summary>
 		/// Not set.
 		/// </summary>
+		[JsonEnumName("NONE")]
 		None,
 		/// <summary>
 		/// An Australia Post Parcel Locker.
 		/// </summary>
+		[JsonEnumName("PARCEL_LOCKER")]
 		ParcelLocker,
 		/// <summary>
 		/// An Australia Post Parcel Collection location.
 		/// </summary>
+		[JsonEnumName("PARCEL_COLLECT")]
 		ParcelCollect,
 		/// <summary>
 		/// A normal delivery address.
 		/// </summary>
+		[JsonEnumName("STANDARD_ADDRESS")]
 		StandardAddress
 	}
 }
