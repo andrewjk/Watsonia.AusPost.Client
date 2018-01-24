@@ -12,7 +12,7 @@ namespace Watsonia.AusPostInterface.Tests
 			var item = new Recipient();
 			item.Name = "Jane Smith";
 			item.BusinessName = "Smith Pty Ltd";
-			item.Line1 = "123 Centre Road";
+			item.Lines = new string[] { "123 Centre Road" };
 			item.Suburb = "Sydney";
 			item.State = State.NSW;
 			item.Postcode = "2000";

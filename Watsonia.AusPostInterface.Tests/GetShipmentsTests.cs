@@ -82,7 +82,7 @@ namespace Watsonia.AusPostInterface.Tests
 			shipment1.CustomerReference2 = "SKU-1";
 			shipment1.EmailTrackingEnabled = true;
 			shipment1.From.Name = "John Citizen";
-			shipment1.From.Line1 = "1 Main Street";
+			shipment1.From.Lines = new string[] { "1 Main Street" };
 			shipment1.From.Suburb = "MELBOURNE";
 			shipment1.From.State = State.Victoria;
 			shipment1.From.Postcode = "3000";
@@ -91,7 +91,7 @@ namespace Watsonia.AusPostInterface.Tests
 
 			shipment1.To.Name = "Jane Smith";
 			shipment1.To.BusinessName = "Smith Pty Ltd";
-			shipment1.To.Line1 = "123 Centre Road";
+			shipment1.To.Lines = new string[] { "123 Centre Road" };
 			shipment1.To.Suburb = "Sydney";
 			shipment1.To.State = State.NSW;
 			shipment1.To.Postcode = "2000";
@@ -118,7 +118,7 @@ namespace Watsonia.AusPostInterface.Tests
 			shipment2.CustomerReference2 = "SKU-2, SKU-3";
 			shipment2.EmailTrackingEnabled = true;
 			shipment2.From.Name = "John Citizen";
-			shipment2.From.Line1 = "1 Main Street";
+			shipment2.From.Lines = new string[] { "1 Main Street" };
 			shipment2.From.Suburb = "MELBOURNE";
 			shipment2.From.State = State.Victoria;
 			shipment2.From.Postcode = "3000";
@@ -127,7 +127,7 @@ namespace Watsonia.AusPostInterface.Tests
 
 			shipment2.To.Name = "Jane Smith";
 			shipment2.To.BusinessName = "Smith Pty Ltd";
-			shipment2.To.Line1 = "123 Centre Road";
+			shipment2.To.Lines = new string[] { "123 Centre Road" };
 			shipment2.To.Suburb = "Sydney";
 			shipment2.To.State = State.NSW;
 			shipment2.To.Postcode = "2000";

@@ -11,7 +11,7 @@ namespace Watsonia.AusPostInterface.Tests
 		{
 			var item = new Sender();
 			item.Name = "John Citizen";
-			item.Line1 = "1 Main Street";
+			item.Lines = new string[] { "1 Main Street" };
 			item.Suburb = "MELBOURNE";
 			item.State = State.Victoria;
 			item.Postcode = "3000";
