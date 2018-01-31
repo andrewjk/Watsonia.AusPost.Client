@@ -4,7 +4,7 @@ C# functions for working with Australia Post's Shipping and Tracking API outline
 
 There is enough in here so far to create and dispatch an order as per https://developers.auspost.com.au/apis/shipping-and-tracking/tutorial/more-integrated-solution.  
 
-Functions are implemented in the static AusPost class and include:
+Functions are implemented in the Client class and include:
 
 * GetAccountsAsync
 * CreateShipmentsAsync

@@ -14,15 +14,16 @@ namespace Watsonia.AusPostInterface.Tests
 		[TestMethod]
 		public async Task CreateLabels()
 		{
-			AusPost.Testing = true;
-
 			string accountNumber = ConfigurationManager.AppSettings["AusPostAccountNumber"];
 			string username = ConfigurationManager.AppSettings["AusPostUsername"];
 			string password = ConfigurationManager.AppSettings["AusPostPassword"];
 
+			var client = new ShippingClient(accountNumber, username, password);
+			client.Testing = true;
+
 			var createShipmentsRequest = CreateCreateShipmentsRequest();
 
-			CreateShipmentsResponse createShipmentsResponse = await AusPost.CreateShipmentsAsync(accountNumber, username, password, createShipmentsRequest);
+			var createShipmentsResponse = await client.CreateShipmentsAsync(createShipmentsRequest);
 
 			Assert.AreEqual(true, createShipmentsResponse.Succeeded);
 			Assert.AreEqual(1, createShipmentsResponse.Shipments.Count);
@@ -30,7 +31,7 @@ namespace Watsonia.AusPostInterface.Tests
 
 			var updateRequest = CreateCreateLabelsRequest(createShipmentsResponse.Shipments[0].ShipmentID);
 
-			CreateLabelsResponse createLabelsResponse = await AusPost.CreateLabelsAsync(accountNumber, username, password, updateRequest);
+			var createLabelsResponse = await client.CreateLabelsAsync(updateRequest);
 
 			Assert.AreEqual(true, createLabelsResponse.Succeeded);
 			Assert.AreEqual(1, createLabelsResponse.Labels.Count);
@@ -42,15 +43,16 @@ namespace Watsonia.AusPostInterface.Tests
 		[TestMethod]
 		public async Task CreateLabelsWithError()
 		{
-			AusPost.Testing = true;
-
 			string accountNumber = ConfigurationManager.AppSettings["AusPostAccountNumber"];
 			string username = ConfigurationManager.AppSettings["AusPostUsername"];
 			string password = ConfigurationManager.AppSettings["AusPostPassword"];
 
+			var client = new ShippingClient(accountNumber, username, password);
+			client.Testing = true;
+
 			var createShipmentsRequest = CreateCreateShipmentsRequest();
 
-			CreateShipmentsResponse createShipmentsResponse = await AusPost.CreateShipmentsAsync(accountNumber, username, password, createShipmentsRequest);
+			var createShipmentsResponse = await client.CreateShipmentsAsync(createShipmentsRequest);
 
 			Assert.AreEqual(true, createShipmentsResponse.Succeeded);
 			Assert.AreEqual(1, createShipmentsResponse.Shipments.Count);
@@ -61,7 +63,7 @@ namespace Watsonia.AusPostInterface.Tests
 			// Make a shipment ID incorrect
 			createLabelsRequest.Shipments[0].ShipmentID = "Incorrect";
 
-			CreateLabelsResponse createLabelsResponse = await AusPost.CreateLabelsAsync(accountNumber, username, password, createLabelsRequest);
+			var createLabelsResponse = await client.CreateLabelsAsync(createLabelsRequest);
 
 			Assert.AreEqual(false, createLabelsResponse.Succeeded);
 			Assert.AreEqual(0, createLabelsResponse.Labels.Count);

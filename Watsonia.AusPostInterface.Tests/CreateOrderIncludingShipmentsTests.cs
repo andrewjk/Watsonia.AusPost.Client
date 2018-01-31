@@ -14,15 +14,16 @@ namespace Watsonia.AusPostInterface.Tests
 		[TestMethod]
 		public async Task CreateOrderIncludingShipments()
 		{
-			AusPost.Testing = true;
-
 			string accountNumber = ConfigurationManager.AppSettings["AusPostAccountNumber"];
 			string username = ConfigurationManager.AppSettings["AusPostUsername"];
 			string password = ConfigurationManager.AppSettings["AusPostPassword"];
 
+			var client = new ShippingClient(accountNumber, username, password);
+			client.Testing = true;
+
 			var createOrderRequest = CreateCreateOrderRequest();
 
-			CreateOrderIncludingShipmentsResponse createOrderResponse = await AusPost.CreateOrderIncludingShipmentsAsync(accountNumber, username, password, createOrderRequest);
+			var createOrderResponse = await client.CreateOrderIncludingShipmentsAsync(createOrderRequest);
 
 			Assert.AreEqual(true, createOrderResponse.Succeeded);
 			Assert.AreEqual(true, !string.IsNullOrEmpty(createOrderResponse.Order.OrderID));
@@ -33,18 +34,19 @@ namespace Watsonia.AusPostInterface.Tests
 		[TestMethod]
 		public async Task CreateOrderIncludingShipmentsWithError()
 		{
-			AusPost.Testing = true;
-
 			string accountNumber = ConfigurationManager.AppSettings["AusPostAccountNumber"];
 			string username = ConfigurationManager.AppSettings["AusPostUsername"];
 			string password = ConfigurationManager.AppSettings["AusPostPassword"];
+
+			var client = new ShippingClient(accountNumber, username, password);
+			client.Testing = true;
 
 			var createOrderRequest = CreateCreateOrderRequest();
 
 			// Make an item way too big
 			createOrderRequest.Shipments[1].Items[1].Width = 20000;
 
-			CreateOrderIncludingShipmentsResponse createOrderResponse = await AusPost.CreateOrderIncludingShipmentsAsync(accountNumber, username, password, createOrderRequest);
+			var createOrderResponse = await client.CreateOrderIncludingShipmentsAsync(createOrderRequest);
 
 			Assert.AreEqual(false, createOrderResponse.Succeeded);
 			Assert.AreEqual(true, string.IsNullOrEmpty(createOrderResponse.Order.OrderID));

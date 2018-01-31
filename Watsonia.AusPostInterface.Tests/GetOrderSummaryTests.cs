@@ -14,7 +14,12 @@ namespace Watsonia.AusPostInterface.Tests
 		[TestMethod]
 		public async Task GetOrderSummary()
 		{
-			AusPost.Testing = true;
+			string accountNumber = ConfigurationManager.AppSettings["AusPostAccountNumber"];
+			string username = ConfigurationManager.AppSettings["AusPostUsername"];
+			string password = ConfigurationManager.AppSettings["AusPostPassword"];
+
+			var client = new ShippingClient(accountNumber, username, password);
+			client.Testing = true;
 
 			// Delete files from previous runs
 			string folder = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Summary";
@@ -27,13 +32,9 @@ namespace Watsonia.AusPostInterface.Tests
 				System.IO.File.Delete(file);
 			}
 
-			string accountNumber = ConfigurationManager.AppSettings["AusPostAccountNumber"];
-			string username = ConfigurationManager.AppSettings["AusPostUsername"];
-			string password = ConfigurationManager.AppSettings["AusPostPassword"];
-
 			var createOrderRequest = CreateCreateOrderRequest();
 
-			CreateOrderIncludingShipmentsResponse createOrderResponse = await AusPost.CreateOrderIncludingShipmentsAsync(accountNumber, username, password, createOrderRequest);
+			var createOrderResponse = await client.CreateOrderIncludingShipmentsAsync(createOrderRequest);
 
 			Assert.AreEqual(true, createOrderResponse.Succeeded);
 			Assert.AreEqual(true, !string.IsNullOrEmpty(createOrderResponse.Order.OrderID));
@@ -42,7 +43,7 @@ namespace Watsonia.AusPostInterface.Tests
 
 			var getOrderSummaryRequest = new GetOrderSummaryRequest(createOrderResponse.Order.OrderID);
 
-			GetOrderSummaryResponse getOrderSummaryResponse = await AusPost.GetOrderSummaryAsync(accountNumber, username, password, getOrderSummaryRequest);
+			var getOrderSummaryResponse = await client.GetOrderSummaryAsync(getOrderSummaryRequest);
 
 			Assert.AreEqual(true, getOrderSummaryResponse.Succeeded);
 			Assert.IsNotNull(getOrderSummaryResponse.Stream);
@@ -63,15 +64,16 @@ namespace Watsonia.AusPostInterface.Tests
 		[TestMethod]
 		public async Task GetOrderSummaryWithError()
 		{
-			AusPost.Testing = true;
-
 			string accountNumber = ConfigurationManager.AppSettings["AusPostAccountNumber"];
 			string username = ConfigurationManager.AppSettings["AusPostUsername"];
 			string password = ConfigurationManager.AppSettings["AusPostPassword"];
 
+			var client = new ShippingClient(accountNumber, username, password);
+			client.Testing = true;
+
 			var getOrderSummaryRequest = new GetOrderSummaryRequest("Invalid");
 
-			GetOrderSummaryResponse getOrderSummaryResponse = await AusPost.GetOrderSummaryAsync(accountNumber, username, password, getOrderSummaryRequest);
+			var getOrderSummaryResponse = await client.GetOrderSummaryAsync(getOrderSummaryRequest);
 
 			Assert.AreEqual(false, getOrderSummaryResponse.Succeeded);
 			Assert.AreEqual(null, getOrderSummaryResponse.Stream);

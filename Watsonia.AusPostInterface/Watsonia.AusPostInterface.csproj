@@ -50,7 +50,7 @@
     <Compile Include="AccountProduct.cs" />
     <Compile Include="ApiItem.cs" />
     <Compile Include="ApiSerializer.cs" />
-    <Compile Include="AusPost.cs" />
+    <Compile Include="ShippingClient.cs" />
     <Compile Include="DeleteShipmentResponse.cs" />
     <Compile Include="DownloadLabelsResponse.cs" />
     <Compile Include="GetOrdersResponse.cs" />

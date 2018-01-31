@@ -73,7 +73,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Watsonia.AusPostInterface\Watsonia.AusPostInterface.csproj">
       <Project>{61e1e919-9f28-486a-93fd-c6def33dfaad}</Project>
-      <Name>Watsonia.AustraliaPostInterface</Name>
+      <Name>Watsonia.AusPostInterface</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

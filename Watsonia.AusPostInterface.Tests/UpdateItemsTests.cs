@@ -14,15 +14,16 @@ namespace Watsonia.AusPostInterface.Tests
 		[TestMethod]
 		public async Task UpdateItems()
 		{
-			AusPost.Testing = true;
-
 			string accountNumber = ConfigurationManager.AppSettings["AusPostAccountNumber"];
 			string username = ConfigurationManager.AppSettings["AusPostUsername"];
 			string password = ConfigurationManager.AppSettings["AusPostPassword"];
 
+			var client = new ShippingClient(accountNumber, username, password);
+			client.Testing = true;
+
 			var createRequest = CreateCreateShipmentsRequest();
 
-			CreateShipmentsResponse createResponse = await AusPost.CreateShipmentsAsync(accountNumber, username, password, createRequest);
+			var createResponse = await client.CreateShipmentsAsync(createRequest);
 			
 			Assert.AreEqual(true, createResponse.Succeeded);
 			Assert.AreEqual(1, createResponse.Shipments.Count);
@@ -30,7 +31,7 @@ namespace Watsonia.AusPostInterface.Tests
 
 			var updateRequest = CreateUpdateItemsRequest();
 
-			UpdateItemsResponse updateResponse = await AusPost.UpdateItemsAsync(accountNumber, username, password, createResponse.Shipments[0].ShipmentID, updateRequest);
+			var updateResponse = await client.UpdateItemsAsync(createResponse.Shipments[0].ShipmentID, updateRequest);
 
 			// NOTE: This doesn't return anything other than a general success or fail
 			Assert.AreEqual(true, updateResponse.Succeeded);
@@ -41,15 +42,16 @@ namespace Watsonia.AusPostInterface.Tests
 		[TestMethod]
 		public async Task UpdateItemsWithError()
 		{
-			AusPost.Testing = true;
-
-			var createRequest = CreateCreateShipmentsRequest();
-
 			string accountNumber = ConfigurationManager.AppSettings["AusPostAccountNumber"];
 			string username = ConfigurationManager.AppSettings["AusPostUsername"];
 			string password = ConfigurationManager.AppSettings["AusPostPassword"];
 
-			CreateShipmentsResponse createResponse = await AusPost.CreateShipmentsAsync(accountNumber, username, password, createRequest);
+			var client = new ShippingClient(accountNumber, username, password);
+			client.Testing = true;
+
+			var createRequest = CreateCreateShipmentsRequest();
+
+			var createResponse = await client.CreateShipmentsAsync(createRequest);
 
 			Assert.AreEqual(true, createResponse.Succeeded);
 			Assert.AreEqual(1, createResponse.Shipments.Count);
@@ -60,7 +62,7 @@ namespace Watsonia.AusPostInterface.Tests
 			// Make an item way too big
 			updateRequest.Items[1].Width = 20000;
 
-			UpdateItemsResponse updateResponse = await AusPost.UpdateItemsAsync(accountNumber, username, password, createResponse.Shipments[0].ShipmentID, updateRequest);
+			var updateResponse = await client.UpdateItemsAsync(createResponse.Shipments[0].ShipmentID, updateRequest);
 
 			// NOTE: This doesn't return anything other than a general success or fail
 			Assert.AreEqual(false, updateResponse.Succeeded);

@@ -7,10 +7,14 @@ using System.Threading.Tasks;
 
 namespace Watsonia.AusPostInterface
 {
-	public static class AusPost
+	public class ShippingClient
 	{
-		private static string TestingUrl = "https://digitalapi.auspost.com.au/testbed/shipping/v1/";
-		private static string LiveUrl = "https://digitalapi.auspost.com.au/shipping/v1/";
+		private const string TestingUrl = "https://digitalapi.auspost.com.au/testbed/shipping/v1/";
+		private const string LiveUrl = "https://digitalapi.auspost.com.au/shipping/v1/";
+
+		private string _accountNumber;
+		private string _username;
+		private string _password;
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this instance is making requests against the testbed.
@@ -18,26 +22,36 @@ namespace Watsonia.AusPostInterface
 		/// <value>
 		///   <c>true</c> if in testing; otherwise, <c>false</c>.
 		/// </value>
-		internal static bool Testing { get; set; }
+		internal bool Testing { get; set; }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ShippingClient" /> class.
+		/// </summary>
+		/// <param name="accountNumber">The Australia Post account number.</param>
+		/// <param name="username">The Australia Post API _username.</param>
+		/// <param name="password">The Australia Post API _password.</param>
+		public ShippingClient(string accountNumber, string username, string password)
+		{
+			_accountNumber = accountNumber;
+			_username = username;
+			_password = password;
+		}
 
 		/// <summary>
 		/// This interface retrieves information regarding the requestor’s charge account and the postage products that the charge account is able to use.
 		/// </summary>
-		/// <param name="accountNumber">The Australia Post account number.</param>
-		/// <param name="username">The Australia Post API username.</param>
-		/// <param name="password">The Australia Post API password.</param>
 		/// <returns></returns>
-		public async static Task<GetAccountsResponse> GetAccountsAsync(string accountNumber, string username, string password)
+		public async Task<GetAccountsResponse> GetAccountsAsync()
 		{
-			string apiUrlPrefix = AusPost.Testing ? AusPost.TestingUrl : AusPost.LiveUrl;
-			string apiUrl = apiUrlPrefix + "accounts/" + accountNumber;
+			string apiUrlPrefix = this.Testing ? ShippingClient.TestingUrl : ShippingClient.LiveUrl;
+			string apiUrl = apiUrlPrefix + "accounts/" + _accountNumber;
 
 			using (var client = new HttpClient())
 			{
 				// Add authentication headers
-				byte[] apiKey = Encoding.UTF8.GetBytes(username + ":" + password);
+				byte[] apiKey = Encoding.UTF8.GetBytes(_username + ":" + _password);
 				client.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(apiKey));
-				client.DefaultRequestHeaders.Add("Account-Number", accountNumber);
+				client.DefaultRequestHeaders.Add("Account-Number", _accountNumber);
 
 				// GET the request
 				HttpResponseMessage response = await client.GetAsync(apiUrl);
@@ -55,22 +69,19 @@ namespace Watsonia.AusPostInterface
 		/// <summary>
 		/// This interface creates a shipment with items and returns a summary of the pricing for the items.
 		/// </summary>
-		/// <param name="accountNumber">The Australia Post account number.</param>
-		/// <param name="username">The Australia Post API username.</param>
-		/// <param name="password">The Australia Post API password.</param>
 		/// <param name="shipments">The shipments.</param>
 		/// <returns></returns>
-		public async static Task<CreateShipmentsResponse> CreateShipmentsAsync(string accountNumber, string username, string password, CreateShipmentsRequest shipments)
+		public async Task<CreateShipmentsResponse> CreateShipmentsAsync(CreateShipmentsRequest shipments)
 		{
-			string apiUrlPrefix = AusPost.Testing ? AusPost.TestingUrl : AusPost.LiveUrl;
+			string apiUrlPrefix = this.Testing ? ShippingClient.TestingUrl : ShippingClient.LiveUrl;
 			string apiUrl = apiUrlPrefix + "shipments";
 
 			using (var client = new HttpClient())
 			{
 				// Add authentication headers
-				byte[] apiKey = Encoding.UTF8.GetBytes(username + ":" + password);
+				byte[] apiKey = Encoding.UTF8.GetBytes(_username + ":" + _password);
 				client.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(apiKey));
-				client.DefaultRequestHeaders.Add("Account-Number", accountNumber);
+				client.DefaultRequestHeaders.Add("Account-Number", _accountNumber);
 
 				// Build the JSON content from the shipment
 				var json = shipments.ToJson();
@@ -92,23 +103,20 @@ namespace Watsonia.AusPostInterface
 		/// <summary>
 		/// This service updates an existing shipment that has previously been created using the Create Shipment interface.
 		/// </summary>
-		/// <param name="accountNumber">The Australia Post account number.</param>
-		/// <param name="username">The Australia Post API username.</param>
-		/// <param name="password">The Australia Post API password.</param>
 		/// <param name="shipmentID">The identifier for the shipment generated by Australia Post.</param>
 		/// <param name="items">The items.</param>
 		/// <returns></returns>
-		public async static Task<UpdateItemsResponse> UpdateItemsAsync(string accountNumber, string username, string password, string shipmentID, UpdateItemsRequest items)
+		public async Task<UpdateItemsResponse> UpdateItemsAsync(string shipmentID, UpdateItemsRequest items)
 		{
-			string apiUrlPrefix = AusPost.Testing ? AusPost.TestingUrl : AusPost.LiveUrl;
+			string apiUrlPrefix = this.Testing ? ShippingClient.TestingUrl : ShippingClient.LiveUrl;
 			string apiUrl = apiUrlPrefix + "shipments/" + shipmentID + "/items";
 
 			using (var client = new HttpClient())
 			{
 				// Add authentication headers
-				byte[] apiKey = Encoding.UTF8.GetBytes(username + ":" + password);
+				byte[] apiKey = Encoding.UTF8.GetBytes(_username + ":" + _password);
 				client.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(apiKey));
-				client.DefaultRequestHeaders.Add("Account-Number", accountNumber);
+				client.DefaultRequestHeaders.Add("Account-Number", _accountNumber);
 
 				// Build the JSON content from the items
 				var json = items.ToJson();
@@ -139,23 +147,20 @@ namespace Watsonia.AusPostInterface
 		/// <summary>
 		/// This service deletes an item in a shipment for shipments that have not been included in an order.
 		/// </summary>
-		/// <param name="accountNumber">The Australia Post account number.</param>
-		/// <param name="username">The Australia Post API username.</param>
-		/// <param name="password">The Australia Post API password.</param>
 		/// <param name="shipmentID">The identifier for the shipment generated by Australia Post.</param>
 		/// <param name="itemID">The identifier for the item generated by Australia Post.</param>
 		/// <returns></returns>
-		public async static Task<DeleteItemsResponse> DeleteItemAsync(string accountNumber, string username, string password, string shipmentID, string itemID)
+		public async Task<DeleteItemsResponse> DeleteItemAsync(string shipmentID, string itemID)
 		{
-			string apiUrlPrefix = AusPost.Testing ? AusPost.TestingUrl : AusPost.LiveUrl;
+			string apiUrlPrefix = this.Testing ? ShippingClient.TestingUrl : ShippingClient.LiveUrl;
 			string apiUrl = apiUrlPrefix + "shipments/" + shipmentID + "/items/" + itemID;
 
 			using (var client = new HttpClient())
 			{
 				// Add authentication headers
-				byte[] apiKey = Encoding.UTF8.GetBytes(username + ":" + password);
+				byte[] apiKey = Encoding.UTF8.GetBytes(_username + ":" + _password);
 				client.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(apiKey));
-				client.DefaultRequestHeaders.Add("Account-Number", accountNumber);
+				client.DefaultRequestHeaders.Add("Account-Number", _accountNumber);
 
 				// DELETE the item
 				HttpResponseMessage response = await client.DeleteAsync(apiUrl);
@@ -182,22 +187,19 @@ namespace Watsonia.AusPostInterface
 		/// <summary>
 		/// This service deletes an item in a shipment for shipments that have not been included in an order.
 		/// </summary>
-		/// <param name="accountNumber">The Australia Post account number.</param>
-		/// <param name="username">The Australia Post API username.</param>
-		/// <param name="password">The Australia Post API password.</param>
 		/// <param name="shipmentID">The identifier for the shipment generated by Australia Post.</param>
 		/// <returns></returns>
-		public async static Task<DeleteShipmentResponse> DeleteShipmentAsync(string accountNumber, string username, string password, string shipmentID)
+		public async Task<DeleteShipmentResponse> DeleteShipmentAsync(string shipmentID)
 		{
-			string apiUrlPrefix = AusPost.Testing ? AusPost.TestingUrl : AusPost.LiveUrl;
+			string apiUrlPrefix = this.Testing ? ShippingClient.TestingUrl : ShippingClient.LiveUrl;
 			string apiUrl = apiUrlPrefix + "shipments/" + shipmentID;
 
 			using (var client = new HttpClient())
 			{
 				// Add authentication headers
-				byte[] apiKey = Encoding.UTF8.GetBytes(username + ":" + password);
+				byte[] apiKey = Encoding.UTF8.GetBytes(_username + ":" + _password);
 				client.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(apiKey));
-				client.DefaultRequestHeaders.Add("Account-Number", accountNumber);
+				client.DefaultRequestHeaders.Add("Account-Number", _accountNumber);
 
 				// DELETE the item
 				HttpResponseMessage response = await client.DeleteAsync(apiUrl);
@@ -224,22 +226,19 @@ namespace Watsonia.AusPostInterface
 		/// <summary>
 		/// This service creates an order for the referenced shipments that have previously been created using the Create Shipments service.
 		/// </summary>
-		/// <param name="accountNumber">The Australia Post account number.</param>
-		/// <param name="username">The Australia Post API username.</param>
-		/// <param name="password">The Australia Post API password.</param>
 		/// <param name="shipments">The shipments.</param>
 		/// <returns></returns>
-		public async static Task<CreateOrderFromShipmentsResponse> CreateOrderFromShipmentsAsync(string accountNumber, string username, string password, CreateOrderFromShipmentsRequest shipments)
+		public async Task<CreateOrderFromShipmentsResponse> CreateOrderFromShipmentsAsync(CreateOrderFromShipmentsRequest shipments)
 		{
-			string apiUrlPrefix = AusPost.Testing ? AusPost.TestingUrl : AusPost.LiveUrl;
+			string apiUrlPrefix = this.Testing ? ShippingClient.TestingUrl : ShippingClient.LiveUrl;
 			string apiUrl = apiUrlPrefix + "orders";
 
 			using (var client = new HttpClient())
 			{
 				// Add authentication headers
-				byte[] apiKey = Encoding.UTF8.GetBytes(username + ":" + password);
+				byte[] apiKey = Encoding.UTF8.GetBytes(_username + ":" + _password);
 				client.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(apiKey));
-				client.DefaultRequestHeaders.Add("Account-Number", accountNumber);
+				client.DefaultRequestHeaders.Add("Account-Number", _accountNumber);
 
 				// Build the JSON content from the items
 				var json = shipments.ToJson();
@@ -261,22 +260,19 @@ namespace Watsonia.AusPostInterface
 		/// <summary>
 		/// This service creates an order for the contained shipments and items.
 		/// </summary>
-		/// <param name="accountNumber">The Australia Post account number.</param>
-		/// <param name="username">The Australia Post API username.</param>
-		/// <param name="password">The Australia Post API password.</param>
 		/// <param name="shipments">The shipments.</param>
 		/// <returns></returns>
-		public async static Task<CreateOrderIncludingShipmentsResponse> CreateOrderIncludingShipmentsAsync(string accountNumber, string username, string password, CreateOrderIncludingShipmentsRequest shipments)
+		public async Task<CreateOrderIncludingShipmentsResponse> CreateOrderIncludingShipmentsAsync(CreateOrderIncludingShipmentsRequest shipments)
 		{
-			string apiUrlPrefix = AusPost.Testing ? AusPost.TestingUrl : AusPost.LiveUrl;
+			string apiUrlPrefix = this.Testing ? ShippingClient.TestingUrl : ShippingClient.LiveUrl;
 			string apiUrl = apiUrlPrefix + "orders";
 
 			using (var client = new HttpClient())
 			{
 				// Add authentication headers
-				byte[] apiKey = Encoding.UTF8.GetBytes(username + ":" + password);
+				byte[] apiKey = Encoding.UTF8.GetBytes(_username + ":" + _password);
 				client.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(apiKey));
-				client.DefaultRequestHeaders.Add("Account-Number", accountNumber);
+				client.DefaultRequestHeaders.Add("Account-Number", _accountNumber);
 
 				// Build the JSON content from the items
 				var json = shipments.ToJson();
@@ -298,22 +294,19 @@ namespace Watsonia.AusPostInterface
 		/// <summary>
 		/// This service initiates the generation of labels for the requested shipments that have been previously created using the Create Shipments service.
 		/// </summary>
-		/// <param name="accountNumber">The Australia Post account number.</param>
-		/// <param name="username">The Australia Post API username.</param>
-		/// <param name="password">The Australia Post API password.</param>
 		/// <param name="shipments">The shipments.</param>
 		/// <returns></returns>
-		public async static Task<CreateLabelsResponse> CreateLabelsAsync(string accountNumber, string username, string password, CreateLabelsRequest shipments)
+		public async Task<CreateLabelsResponse> CreateLabelsAsync(CreateLabelsRequest shipments)
 		{
-			string apiUrlPrefix = AusPost.Testing ? AusPost.TestingUrl : AusPost.LiveUrl;
+			string apiUrlPrefix = this.Testing ? ShippingClient.TestingUrl : ShippingClient.LiveUrl;
 			string apiUrl = apiUrlPrefix + "labels";
 
 			using (var client = new HttpClient())
 			{
 				// Add authentication headers
-				byte[] apiKey = Encoding.UTF8.GetBytes(username + ":" + password);
+				byte[] apiKey = Encoding.UTF8.GetBytes(_username + ":" + _password);
 				client.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(apiKey));
-				client.DefaultRequestHeaders.Add("Account-Number", accountNumber);
+				client.DefaultRequestHeaders.Add("Account-Number", _accountNumber);
 
 				// Build the JSON content from the items
 				var json = shipments.ToJson();
@@ -337,7 +330,7 @@ namespace Watsonia.AusPostInterface
 		/// </summary>
 		/// <param name="labelUrl">The label URL.</param>
 		/// <returns></returns>
-		public async static Task<DownloadLabelsResponse> DownloadLabelsAsync(string labelUrl)
+		public async Task<DownloadLabelsResponse> DownloadLabelsAsync(string labelUrl)
 		{
 			using (var client = new HttpClient())
 			{
@@ -366,14 +359,11 @@ namespace Watsonia.AusPostInterface
 		/// <summary>
 		/// This interface retrieves information for orders, and the items contained within orders created using the Create Orders interface.
 		/// </summary>
-		/// <param name="accountNumber">The Australia Post account number.</param>
-		/// <param name="username">The Australia Post API username.</param>
-		/// <param name="password">The Australia Post API password.</param>
 		/// <param name="orders">The orders.</param>
 		/// <returns></returns>
-		public async static Task<GetOrdersResponse> GetOrdersAsync(string accountNumber, string username, string password, GetOrdersRequest orders)
+		public async Task<GetOrdersResponse> GetOrdersAsync(GetOrdersRequest orders)
 		{
-			string apiUrlPrefix = AusPost.Testing ? AusPost.TestingUrl : AusPost.LiveUrl;
+			string apiUrlPrefix = this.Testing ? ShippingClient.TestingUrl : ShippingClient.LiveUrl;
 
 			// Build the query string
 			Dictionary<string, string> queryParams = new Dictionary<string, string>();
@@ -395,9 +385,9 @@ namespace Watsonia.AusPostInterface
 			using (var client = new HttpClient())
 			{
 				// Add authentication headers
-				byte[] apiKey = Encoding.UTF8.GetBytes(username + ":" + password);
+				byte[] apiKey = Encoding.UTF8.GetBytes(_username + ":" + _password);
 				client.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(apiKey));
-				client.DefaultRequestHeaders.Add("Account-Number", accountNumber);
+				client.DefaultRequestHeaders.Add("Account-Number", _accountNumber);
 
 				// GET the request
 				HttpResponseMessage response = await client.GetAsync(apiUrl);
@@ -415,14 +405,11 @@ namespace Watsonia.AusPostInterface
 		/// <summary>
 		/// This interface retrieves information for shipments, and the items contained within shipments created using the Create Shipments interface.
 		/// </summary>
-		/// <param name="accountNumber">The Australia Post account number.</param>
-		/// <param name="username">The Australia Post API username.</param>
-		/// <param name="password">The Australia Post API password.</param>
 		/// <param name="shipments">The shipments.</param>
 		/// <returns></returns>
-		public async static Task<GetShipmentsResponse> GetShipmentsAsync(string accountNumber, string username, string password, GetShipmentsRequest shipments)
+		public async Task<GetShipmentsResponse> GetShipmentsAsync(GetShipmentsRequest shipments)
 		{
-			string apiUrlPrefix = AusPost.Testing ? AusPost.TestingUrl : AusPost.LiveUrl;
+			string apiUrlPrefix = this.Testing ? ShippingClient.TestingUrl : ShippingClient.LiveUrl;
 
 			// Build the query string
 			Dictionary<string, string> queryParams = new Dictionary<string, string>();
@@ -455,9 +442,9 @@ namespace Watsonia.AusPostInterface
 			using (var client = new HttpClient())
 			{
 				// Add authentication headers
-				byte[] apiKey = Encoding.UTF8.GetBytes(username + ":" + password);
+				byte[] apiKey = Encoding.UTF8.GetBytes(_username + ":" + _password);
 				client.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(apiKey));
-				client.DefaultRequestHeaders.Add("Account-Number", accountNumber);
+				client.DefaultRequestHeaders.Add("Account-Number", _accountNumber);
 
 				// GET the request
 				HttpResponseMessage response = await client.GetAsync(apiUrl);
@@ -475,25 +462,22 @@ namespace Watsonia.AusPostInterface
 		/// <summary>
 		/// This service returns the PDF order summary that contains a charges breakdown of the articles in the order.
 		/// </summary>
-		/// <param name="accountNumber">The account number.</param>
-		/// <param name="username">The username.</param>
-		/// <param name="password">The password.</param>
 		/// <param name="orderID">The order id you wish to retrieve the summary for.</param>
 		/// <returns></returns>
-		public async static Task<GetOrderSummaryResponse> GetOrderSummaryAsync(string accountNumber, string username, string password, GetOrderSummaryRequest request)
+		public async Task<GetOrderSummaryResponse> GetOrderSummaryAsync(GetOrderSummaryRequest request)
 		{
-			string apiUrlPrefix = AusPost.Testing ? AusPost.TestingUrl : AusPost.LiveUrl;
-			string apiUrl = apiUrlPrefix + "accounts/" + accountNumber + "/orders/" + request.OrderID + "/summary";
+			string apiUrlPrefix = this.Testing ? ShippingClient.TestingUrl : ShippingClient.LiveUrl;
+			string apiUrl = apiUrlPrefix + "accounts/" + _accountNumber + "/orders/" + request.OrderID + "/summary";
 
 			using (var client = new HttpClient())
 			{
 				// Add authentication headers
-				byte[] apiKey = Encoding.UTF8.GetBytes(username + ":" + password);
+				byte[] apiKey = Encoding.UTF8.GetBytes(_username + ":" + _password);
 				client.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(apiKey));
-				client.DefaultRequestHeaders.Add("Account-Number", accountNumber);
+				client.DefaultRequestHeaders.Add("Account-Number", _accountNumber);
 
 				// Add the account number into the request
-				request.AccountNumber = accountNumber;
+				request.AccountNumber = _accountNumber;
 
 				// GET the request
 				HttpResponseMessage response = await client.GetAsync(apiUrl);

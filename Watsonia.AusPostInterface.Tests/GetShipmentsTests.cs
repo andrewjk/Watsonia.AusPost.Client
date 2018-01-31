@@ -14,15 +14,16 @@ namespace Watsonia.AusPostInterface.Tests
 		[TestMethod]
 		public async Task GetShipments()
 		{
-			AusPost.Testing = true;
-
 			string accountNumber = ConfigurationManager.AppSettings["AusPostAccountNumber"];
 			string username = ConfigurationManager.AppSettings["AusPostUsername"];
 			string password = ConfigurationManager.AppSettings["AusPostPassword"];
 
+			var client = new ShippingClient(accountNumber, username, password);
+			client.Testing = true;
+
 			var createOrderRequest = CreateCreateOrderRequest();
 
-			CreateOrderIncludingShipmentsResponse createOrderResponse = await AusPost.CreateOrderIncludingShipmentsAsync(accountNumber, username, password, createOrderRequest);
+			var createOrderResponse = await client.CreateOrderIncludingShipmentsAsync(createOrderRequest);
 
 			Assert.AreEqual(true, createOrderResponse.Succeeded);
 			Assert.AreEqual(true, !string.IsNullOrEmpty(createOrderResponse.Order.OrderID));
@@ -31,7 +32,7 @@ namespace Watsonia.AusPostInterface.Tests
 
 			var getShipmentsRequest = CreateGetShipmentsRequest(createOrderResponse);
 
-			GetShipmentsResponse getShipmentsResponse = await AusPost.GetShipmentsAsync(accountNumber, username, password, getShipmentsRequest);
+			var getShipmentsResponse = await client.GetShipmentsAsync(getShipmentsRequest);
 
 			Assert.AreEqual(true, getShipmentsResponse.Succeeded);
 			Assert.AreEqual(2, getShipmentsResponse.Shipments.Count);
@@ -42,15 +43,16 @@ namespace Watsonia.AusPostInterface.Tests
 		[TestMethod]
 		public async Task GetShipmentsWithError()
 		{
-			AusPost.Testing = true;
-
 			string accountNumber = ConfigurationManager.AppSettings["AusPostAccountNumber"];
 			string username = ConfigurationManager.AppSettings["AusPostUsername"];
 			string password = ConfigurationManager.AppSettings["AusPostPassword"];
 
+			var client = new ShippingClient(accountNumber, username, password);
+			client.Testing = true;
+
 			var createOrderRequest = CreateCreateOrderRequest();
 
-			CreateOrderIncludingShipmentsResponse createOrderResponse = await AusPost.CreateOrderIncludingShipmentsAsync(accountNumber, username, password, createOrderRequest);
+			var createOrderResponse = await client.CreateOrderIncludingShipmentsAsync(createOrderRequest);
 
 			Assert.AreEqual(true, createOrderResponse.Succeeded);
 			Assert.AreEqual(true, !string.IsNullOrEmpty(createOrderResponse.Order.OrderID));
@@ -62,7 +64,7 @@ namespace Watsonia.AusPostInterface.Tests
 			// Make a shipment ID incorrect
 			getShipmentsRequest.ShipmentIDs[1] = "Invalid";
 
-			GetShipmentsResponse getShipmentsResponse = await AusPost.GetShipmentsAsync(accountNumber, username, password, getShipmentsRequest);
+			var getShipmentsResponse = await client.GetShipmentsAsync(getShipmentsRequest);
 
 			// NOTE: With only one invalid shipment ID, this returns true with no errors
 			// With two invalid shipment IDs, this returns true with two errors

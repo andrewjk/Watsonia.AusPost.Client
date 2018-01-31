@@ -14,7 +14,12 @@ namespace Watsonia.AusPostInterface.Tests
 		[TestMethod]
 		public async Task DownloadLabels()
 		{
-			AusPost.Testing = true;
+			string accountNumber = ConfigurationManager.AppSettings["AusPostAccountNumber"];
+			string username = ConfigurationManager.AppSettings["AusPostUsername"];
+			string password = ConfigurationManager.AppSettings["AusPostPassword"];
+
+			var client = new ShippingClient(accountNumber, username, password);
+			client.Testing = true;
 
 			// Delete files from previous runs
 			string folder = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Labels";
@@ -27,13 +32,9 @@ namespace Watsonia.AusPostInterface.Tests
 				System.IO.File.Delete(file);
 			}
 
-			string accountNumber = ConfigurationManager.AppSettings["AusPostAccountNumber"];
-			string username = ConfigurationManager.AppSettings["AusPostUsername"];
-			string password = ConfigurationManager.AppSettings["AusPostPassword"];
-
 			var createShipmentsRequest = CreateCreateShipmentsRequest();
 
-			CreateShipmentsResponse createShipmentsResponse = await AusPost.CreateShipmentsAsync(accountNumber, username, password, createShipmentsRequest);
+			var createShipmentsResponse = await client.CreateShipmentsAsync(createShipmentsRequest);
 
 			Assert.AreEqual(true, createShipmentsResponse.Succeeded);
 			Assert.AreEqual(1, createShipmentsResponse.Shipments.Count);
@@ -41,7 +42,7 @@ namespace Watsonia.AusPostInterface.Tests
 
 			var updateRequest = CreateCreateLabelsRequest(createShipmentsResponse.Shipments[0].ShipmentID);
 
-			CreateLabelsResponse updateResponse = await AusPost.CreateLabelsAsync(accountNumber, username, password, updateRequest);
+			var updateResponse = await client.CreateLabelsAsync(updateRequest);
 
 			Assert.AreEqual(true, updateResponse.Succeeded);
 			Assert.AreEqual(1, updateResponse.Labels.Count);
@@ -54,7 +55,7 @@ namespace Watsonia.AusPostInterface.Tests
 
 			var getShipmentsRequest = CreateGetShipmentsRequest(createShipmentsResponse);
 
-			GetShipmentsResponse getShipmentsResponse = await AusPost.GetShipmentsAsync(accountNumber, username, password, getShipmentsRequest);
+			var getShipmentsResponse = await client.GetShipmentsAsync(getShipmentsRequest);
 
 			Assert.AreEqual(true, getShipmentsResponse.Succeeded);
 			Assert.AreEqual(1, getShipmentsResponse.Shipments.Count);
@@ -65,7 +66,7 @@ namespace Watsonia.AusPostInterface.Tests
 			// Download the PDF
 			string pdfFile = folder + "\\labels.pdf";
 			Assert.IsFalse(System.IO.File.Exists(pdfFile));
-			DownloadLabelsResponse downloadResponse = await AusPost.DownloadLabelsAsync(getShipmentsResponse.Shipments[0].Items[0].Label.LabelUrl);
+			var downloadResponse = await client.DownloadLabelsAsync(getShipmentsResponse.Shipments[0].Items[0].Label.LabelUrl);
 			Assert.AreEqual(true, downloadResponse.Succeeded);
 
 			downloadResponse.SaveToFile(pdfFile);

@@ -14,13 +14,14 @@ namespace Watsonia.AusPostInterface.Tests
 		[TestMethod]
 		public async Task GetAccounts()
 		{
-			AusPost.Testing = true;
-
 			string accountNumber = ConfigurationManager.AppSettings["AusPostAccountNumber"];
 			string username = ConfigurationManager.AppSettings["AusPostUsername"];
 			string password = ConfigurationManager.AppSettings["AusPostPassword"];
 			
-			GetAccountsResponse getAccountsResponse = await AusPost.GetAccountsAsync(accountNumber, username, password);
+			var client = new ShippingClient(accountNumber, username, password);
+			client.Testing = true;
+
+			var getAccountsResponse = await client.GetAccountsAsync();
 
 			Assert.AreEqual(true, getAccountsResponse.Succeeded);
 			Assert.AreEqual(1, getAccountsResponse.Addresses.Count);
@@ -31,13 +32,14 @@ namespace Watsonia.AusPostInterface.Tests
 		[TestMethod]
 		public async Task GetAccountsWithError()
 		{
-			AusPost.Testing = true;
-
 			string accountNumber = "Invalid";
 			string username = ConfigurationManager.AppSettings["AusPostUsername"];
 			string password = ConfigurationManager.AppSettings["AusPostPassword"];
 
-			GetAccountsResponse getAccountsResponse = await AusPost.GetAccountsAsync(accountNumber, username, password);
+			var client = new ShippingClient(accountNumber, username, password);
+			client.Testing = true;
+
+			var getAccountsResponse = await client.GetAccountsAsync();
 
 			Assert.AreEqual(false, getAccountsResponse.Succeeded);
 			Assert.AreEqual(0, getAccountsResponse.Addresses.Count);
