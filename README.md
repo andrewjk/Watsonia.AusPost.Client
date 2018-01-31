@@ -1,10 +1,10 @@
-# Australia Post Interface
+# Australia Post Client
 
 C# functions for working with Australia Post's Shipping and Tracking API outlined at https://developers.auspost.com.au/.  
 
 There is enough in here so far to create and dispatch an order as per https://developers.auspost.com.au/apis/shipping-and-tracking/tutorial/more-integrated-solution.  
 
-Functions are implemented in the Client class and include:
+Functions are implemented in the ShippingClient class and include:
 
 * GetAccountsAsync
 * CreateShipmentsAsync
@@ -20,4 +20,4 @@ Functions are implemented in the Client class and include:
 
 ## License ##
 
-Australia Post Interface is released under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+Australia Post Client is released under the terms of the [MIT License](http://opensource.org/licenses/MIT).
