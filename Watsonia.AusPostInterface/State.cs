@@ -3,6 +3,7 @@ using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,12 +15,12 @@ namespace Watsonia.AusPostInterface
 		ACT,
 		NSW,
 		NT,
-		[JsonEnumName("QLD")]
+		[DataMember(Name = "QLD")]
 		Queensland,
 		SA,
-		[JsonEnumName("TAS")]
+		[DataMember(Name = "TAS")]
 		Tasmania,
-		[JsonEnumName("VIC")]
+		[DataMember(Name = "VIC")]
 		Victoria,
 		WA
 	}

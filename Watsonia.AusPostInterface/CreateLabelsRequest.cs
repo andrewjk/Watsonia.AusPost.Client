@@ -32,5 +32,15 @@ namespace Watsonia.AusPostInterface
 			this.Preferences.AddRange(preferences);
 			this.Shipments.AddRange(shipments);
 		}
+
+		/// <summary>
+		/// Loads a CreateLabelsRequest from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static CreateLabelsRequest FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<CreateLabelsRequest>(json);
+		}
 	}
 }

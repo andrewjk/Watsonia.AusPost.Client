@@ -25,5 +25,15 @@ namespace Watsonia.AusPostInterface
 		{
 			this.Items.AddRange(items);
 		}
+
+		/// <summary>
+		/// Loads a UpdateItemsRequest from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static UpdateItemsRequest FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<UpdateItemsRequest>(json);
+		}
 	}
 }

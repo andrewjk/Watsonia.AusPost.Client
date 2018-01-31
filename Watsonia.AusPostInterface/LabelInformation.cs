@@ -44,5 +44,15 @@ namespace Watsonia.AusPostInterface
 		/// The shipments.
 		/// </value>
 		public List<string> ShipmentIDs { get; set; } = new List<string>();
+
+		/// <summary>
+		/// Loads a LabelInformation from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static LabelInformation FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<LabelInformation>(json);
+		}
 	}
 }

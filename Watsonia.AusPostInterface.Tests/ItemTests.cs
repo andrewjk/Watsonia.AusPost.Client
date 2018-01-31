@@ -40,7 +40,9 @@ namespace Watsonia.AusPostInterface.Tests
   }
 }".Trim();
 
-			Assert.AreEqual(expected, item.ToJson());
+			var serializer = new ApiSerializer();
+			var result = serializer.ToJson(item);
+			Assert.AreEqual(expected, result);
 		}
 	}
 }

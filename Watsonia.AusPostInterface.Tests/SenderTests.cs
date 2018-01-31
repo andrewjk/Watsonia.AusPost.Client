@@ -31,7 +31,9 @@ namespace Watsonia.AusPostInterface.Tests
   ""email"": ""john.citizen@citizen.com""
 }".Trim();
 
-			Assert.AreEqual(expected, item.ToJson());
+			var serializer = new ApiSerializer();
+			var result = serializer.ToJson(item);
+			Assert.AreEqual(expected, result);
 		}
 	}
 }

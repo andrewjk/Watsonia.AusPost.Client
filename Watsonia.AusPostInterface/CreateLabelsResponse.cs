@@ -83,5 +83,15 @@ namespace Watsonia.AusPostInterface
 		/// The labels.
 		/// </value>
 		public List<LabelInformation> Labels { get; set; } = new List<LabelInformation>();
+
+		/// <summary>
+		/// Loads a CreateLabelsResponse from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static CreateLabelsResponse FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<CreateLabelsResponse>(json);
+		}
 	}
 }

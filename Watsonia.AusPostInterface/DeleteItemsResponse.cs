@@ -59,5 +59,15 @@ namespace Watsonia.AusPostInterface
 		/// The errors.
 		/// </value>
 		public List<ShipmentErrorResponse> Warnings { get; set; } = new List<ShipmentErrorResponse>();
+
+		/// <summary>
+		/// Loads a DeleteItemsResponse from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static DeleteItemsResponse FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<DeleteItemsResponse>(json);
+		}
 	}
 }

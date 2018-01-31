@@ -43,5 +43,15 @@ namespace Watsonia.AusPostInterface
 		// TODO: AuthorityToLeaveThreshold
 
 		// TODO: Features
+
+		/// <summary>
+		/// Loads a AccountProduct from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static AccountProduct FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<AccountProduct>(json);
+		}
 	}
 }

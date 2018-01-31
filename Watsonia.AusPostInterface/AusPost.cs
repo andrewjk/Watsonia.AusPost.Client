@@ -45,8 +45,7 @@ namespace Watsonia.AusPostInterface
 				// Read the response
 				// TODO: I may actually need to do different things if the status code comes back as e.g. NotFound?
 				string responseJson = await response.Content.ReadAsStringAsync();
-				var result = new GetAccountsResponse();
-				result.FromJson(responseJson);
+				var result = GetAccountsResponse.FromJson(responseJson);
 				result.Succeeded = response.StatusCode == System.Net.HttpStatusCode.OK;
 
 				return result;
@@ -74,7 +73,7 @@ namespace Watsonia.AusPostInterface
 				client.DefaultRequestHeaders.Add("Account-Number", accountNumber);
 
 				// Build the JSON content from the shipment
-				string json = shipments.ToJson();
+				var json = shipments.ToJson();
 				HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
 				// POST the request
@@ -83,8 +82,7 @@ namespace Watsonia.AusPostInterface
 				// Read the response
 				// TODO: I may actually need to do different things if the status code comes back as e.g. NotFound?
 				string responseJson = await response.Content.ReadAsStringAsync();
-				var result = new CreateShipmentsResponse();
-				result.FromJson(responseJson);
+				var result = CreateShipmentsResponse.FromJson(responseJson);
 				result.Succeeded = response.StatusCode == System.Net.HttpStatusCode.Created;
 
 				return result;
@@ -113,7 +111,7 @@ namespace Watsonia.AusPostInterface
 				client.DefaultRequestHeaders.Add("Account-Number", accountNumber);
 
 				// Build the JSON content from the items
-				string json = items.ToJson();
+				var json = items.ToJson();
 				HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
 				// PUT the request
@@ -121,16 +119,20 @@ namespace Watsonia.AusPostInterface
 
 				// Read the response
 				// TODO: I may actually need to do different things if the status code comes back as e.g. NotFound?
-				var result = new UpdateItemsResponse();
-				if (response.StatusCode != System.Net.HttpStatusCode.OK)
+				if (response.StatusCode == System.Net.HttpStatusCode.OK)
+				{
+					var result = new UpdateItemsResponse();
+					result.Succeeded = true;
+					return result;
+				}
+				else
 				{
 					// Read JSON errors
 					string responseJson = await response.Content.ReadAsStringAsync();
-					result.FromJson(responseJson);
+					var result = UpdateItemsResponse.FromJson(responseJson);
+					result.Succeeded = false;
+					return result;
 				}
-				result.Succeeded = response.StatusCode == System.Net.HttpStatusCode.OK;
-
-				return result;
 			}
 		}
 
@@ -160,16 +162,20 @@ namespace Watsonia.AusPostInterface
 
 				// Read the response
 				// TODO: I may actually need to do different things if the status code comes back as e.g. NotFound?
-				var result = new DeleteItemsResponse();
-				if (response.StatusCode != System.Net.HttpStatusCode.OK)
+				if (response.StatusCode == System.Net.HttpStatusCode.OK)
+				{
+					var result = new DeleteItemsResponse();
+					result.Succeeded = true;
+					return result;
+				}
+				else
 				{
 					// Read JSON errors
 					string responseJson = await response.Content.ReadAsStringAsync();
-					result.FromJson(responseJson);
+					var result = DeleteItemsResponse.FromJson(responseJson);
+					result.Succeeded = false;
+					return result;
 				}
-				result.Succeeded = response.StatusCode == System.Net.HttpStatusCode.OK;
-
-				return result;
 			}
 		}
 
@@ -198,16 +204,20 @@ namespace Watsonia.AusPostInterface
 
 				// Read the response
 				// TODO: I may actually need to do different things if the status code comes back as e.g. NotFound?
-				var result = new DeleteShipmentResponse();
-				if (response.StatusCode != System.Net.HttpStatusCode.OK)
+				if (response.StatusCode == System.Net.HttpStatusCode.OK)
+				{
+					var result = new DeleteShipmentResponse();
+					result.Succeeded = true;
+					return result;
+				}
+				else
 				{
 					// Read JSON errors
 					string responseJson = await response.Content.ReadAsStringAsync();
-					result.FromJson(responseJson);
+					var result = DeleteShipmentResponse.FromJson(responseJson);
+					result.Succeeded = false;
+					return result;
 				}
-				result.Succeeded = response.StatusCode == System.Net.HttpStatusCode.OK;
-
-				return result;
 			}
 		}
 
@@ -232,7 +242,7 @@ namespace Watsonia.AusPostInterface
 				client.DefaultRequestHeaders.Add("Account-Number", accountNumber);
 
 				// Build the JSON content from the items
-				string json = shipments.ToJson();
+				var json = shipments.ToJson();
 				HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
 				// PUT the request
@@ -241,8 +251,7 @@ namespace Watsonia.AusPostInterface
 				// Read the response
 				// TODO: I may actually need to do different things if the status code comes back as e.g. NotFound?
 				string responseJson = await response.Content.ReadAsStringAsync();
-				var result = new CreateOrderFromShipmentsResponse();
-				result.FromJson(responseJson);
+				var result = CreateOrderFromShipmentsResponse.FromJson(responseJson);
 				result.Succeeded = response.StatusCode == System.Net.HttpStatusCode.Created;
 
 				return result;
@@ -270,7 +279,7 @@ namespace Watsonia.AusPostInterface
 				client.DefaultRequestHeaders.Add("Account-Number", accountNumber);
 
 				// Build the JSON content from the items
-				string json = shipments.ToJson();
+				var json = shipments.ToJson();
 				HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
 				// POST the request
@@ -279,8 +288,7 @@ namespace Watsonia.AusPostInterface
 				// Read the response
 				// TODO: I may actually need to do different things if the status code comes back as e.g. NotFound?
 				string responseJson = await response.Content.ReadAsStringAsync();
-				var result = new CreateOrderIncludingShipmentsResponse();
-				result.FromJson(responseJson);
+				var result = CreateOrderIncludingShipmentsResponse.FromJson(responseJson);
 				result.Succeeded = response.StatusCode == System.Net.HttpStatusCode.Created;
 
 				return result;
@@ -308,7 +316,7 @@ namespace Watsonia.AusPostInterface
 				client.DefaultRequestHeaders.Add("Account-Number", accountNumber);
 
 				// Build the JSON content from the items
-				string json = shipments.ToJson();
+				var json = shipments.ToJson();
 				HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
 				// POST the request
@@ -317,8 +325,7 @@ namespace Watsonia.AusPostInterface
 				// Read the response
 				// TODO: I may actually need to do different things if the status code comes back as e.g. NotFound?
 				string responseJson = await response.Content.ReadAsStringAsync();
-				var result = new CreateLabelsResponse();
-				result.FromJson(responseJson);
+				var result = CreateLabelsResponse.FromJson(responseJson);
 				result.Succeeded = response.StatusCode == System.Net.HttpStatusCode.OK;
 
 				return result;
@@ -398,8 +405,7 @@ namespace Watsonia.AusPostInterface
 				// Read the response
 				// TODO: I may actually need to do different things if the status code comes back as e.g. NotFound?
 				string responseJson = await response.Content.ReadAsStringAsync();
-				var result = new GetOrdersResponse();
-				result.FromJson(responseJson);
+				var result = GetOrdersResponse.FromJson(responseJson);
 				result.Succeeded = response.StatusCode == System.Net.HttpStatusCode.OK;
 
 				return result;
@@ -432,11 +438,11 @@ namespace Watsonia.AusPostInterface
 			{
 				queryParams.Add("number_of_shipments", shipments.NumberOfShipments.ToString());
 			}
-			if (!string.IsNullOrEmpty(shipments.Status ))
+			if (!string.IsNullOrEmpty(shipments.Status))
 			{
 				queryParams.Add("status", shipments.Status);
 			}
-			if (!string.IsNullOrEmpty(shipments.DespatchDate ))
+			if (!string.IsNullOrEmpty(shipments.DespatchDate))
 			{
 				queryParams.Add("despatch_date", shipments.DespatchDate);
 			}
@@ -459,8 +465,7 @@ namespace Watsonia.AusPostInterface
 				// Read the response
 				// TODO: I may actually need to do different things if the status code comes back as e.g. NotFound?
 				string responseJson = await response.Content.ReadAsStringAsync();
-				var result = new GetShipmentsResponse();
-				result.FromJson(responseJson);
+				var result = GetShipmentsResponse.FromJson(responseJson);
 				result.Succeeded = response.StatusCode == System.Net.HttpStatusCode.OK;
 
 				return result;
@@ -495,19 +500,20 @@ namespace Watsonia.AusPostInterface
 
 				// Read the response
 				// TODO: I may actually need to do different things if the status code comes back as e.g. NotFound?
-				var result = new GetOrderSummaryResponse();
 				if (response.StatusCode == System.Net.HttpStatusCode.OK)
 				{
+					var result = new GetOrderSummaryResponse();
+					result.Succeeded = true;
 					result.Stream = await response.Content.ReadAsStreamAsync();
+					return result;
 				}
 				else
 				{
 					// Read JSON errors
 					string responseJson = await response.Content.ReadAsStringAsync();
-					result.FromJson(responseJson);
+					var result = GetOrderSummaryResponse.FromJson(responseJson);
+					return result;
 				}
-				result.Succeeded = response.StatusCode == System.Net.HttpStatusCode.OK;
-				return result;
 			}
 		}
 	}

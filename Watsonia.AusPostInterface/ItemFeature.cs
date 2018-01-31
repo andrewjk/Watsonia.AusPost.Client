@@ -19,5 +19,15 @@ namespace Watsonia.AusPostInterface
 		/// The attributes.
 		/// </value>
 		public ItemFeatureAttribute Attributes { get; set; } = new ItemFeatureAttribute();
+
+		/// <summary>
+		/// Loads a ItemFeature from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static ItemFeature FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<ItemFeature>(json);
+		}
 	}
 }

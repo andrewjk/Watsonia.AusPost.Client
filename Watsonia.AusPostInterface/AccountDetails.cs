@@ -51,5 +51,15 @@ namespace Watsonia.AusPostInterface
 		/// The email address.
 		/// </value>
 		public string EmailAddress { get; set; }
+
+		/// <summary>
+		/// Loads a AccountDetails from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static AccountDetails FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<AccountDetails>(json);
+		}
 	}
 }

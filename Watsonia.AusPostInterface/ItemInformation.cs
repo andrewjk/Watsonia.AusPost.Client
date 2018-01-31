@@ -140,6 +140,15 @@ namespace Watsonia.AusPostInterface
 		public bool? AllowPartialDelivery { get; set; }
 
 		// TODO: Features
-	
+
+		/// <summary>
+		/// Loads a ItemInformation from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static ItemInformation FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<ItemInformation>(json);
+		}
 	}
 }

@@ -29,5 +29,15 @@ namespace Watsonia.AusPostInterface
 		/// The attributes.
 		/// </value>
 		public List<LabelAttributes> Groups { get; set; } = new List<LabelAttributes>();
+
+		/// <summary>
+		/// Loads a LabelPreference from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static LabelPreference FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<LabelPreference>(json);
+		}
 	}
 }

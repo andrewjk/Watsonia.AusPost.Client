@@ -38,5 +38,15 @@ namespace Watsonia.AusPostInterface
 		/// The barcode identifier.
 		/// </value>
 		public string BarcodeID { get; set; }
+
+		/// <summary>
+		/// Loads a ItemTrackingDetails from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static ItemTrackingDetails FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<ItemTrackingDetails>(json);
+		}
 	}
 }

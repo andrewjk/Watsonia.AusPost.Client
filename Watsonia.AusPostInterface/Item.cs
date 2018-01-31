@@ -161,5 +161,15 @@ namespace Watsonia.AusPostInterface
 		public string Comments { get; set; }
 
 		// TODO: Item contents
+
+		/// <summary>
+		/// Loads a Item from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static Item FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<Item>(json);
+		}
 	}
 }

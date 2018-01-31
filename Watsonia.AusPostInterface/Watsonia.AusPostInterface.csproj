@@ -36,6 +36,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,6 +49,7 @@
     <Compile Include="AccountDetails.cs" />
     <Compile Include="AccountProduct.cs" />
     <Compile Include="ApiItem.cs" />
+    <Compile Include="ApiSerializer.cs" />
     <Compile Include="AusPost.cs" />
     <Compile Include="DeleteShipmentResponse.cs" />
     <Compile Include="DownloadLabelsResponse.cs" />
@@ -80,11 +82,10 @@
     <Compile Include="ItemFeatureAttribute.cs" />
     <Compile Include="ItemFeature.cs" />
     <Compile Include="ItemTrackingDetails.cs" />
-    <Compile Include="JsonEnumNameAttribute.cs" />
     <Compile Include="ItemInformation.cs" />
     <Compile Include="Item.cs" />
-    <Compile Include="JsonEnumNameConverter.cs" />
-    <Compile Include="JsonPropertyContractResolver.cs" />
+    <Compile Include="ApiEnumNameConverter.cs" />
+    <Compile Include="ApiPropertyContractResolver.cs" />
     <Compile Include="MovementType.cs" />
     <Compile Include="RecipientType.cs" />
     <Compile Include="Sender.cs" />

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,7 +19,7 @@ namespace Watsonia.AusPostInterface
 	/// 
 	/// Paul O'Neill, paul@pablissimo.com, 31/07/13
 	/// </summary>
-	public class JsonEnumNameConverter : JsonConverter
+	internal class ApiEnumNameConverter : JsonConverter
 	{
 		private static Dictionary<Type, IEnumerable<Tuple<object, string>>> _typeNameCache =
 			new Dictionary<Type, IEnumerable<Tuple<object, string>>>();
@@ -91,7 +92,7 @@ namespace Watsonia.AusPostInterface
 				List<Tuple<object, string>> outputNames = new List<Tuple<object, string>>();
 				foreach (var field in type.GetFields(BindingFlags.Static | BindingFlags.Public))
 				{
-					var dataMemberAttribute = Attribute.GetCustomAttribute(field, typeof(JsonEnumNameAttribute)) as JsonEnumNameAttribute;
+					var dataMemberAttribute = Attribute.GetCustomAttribute(field, typeof(DataMemberAttribute)) as DataMemberAttribute;
 					if (dataMemberAttribute != null && !string.IsNullOrWhiteSpace(dataMemberAttribute.Name))
 					{
 						outputNames.Add(new Tuple<object, string>(field.GetValue(null), dataMemberAttribute.Name));

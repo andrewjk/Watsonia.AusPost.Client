@@ -136,7 +136,10 @@ namespace Watsonia.AusPostInterface.Tests
     }
   ]
 }".Trim();
-			Assert.AreEqual(expected, shipment.ToJson());
+
+			var serializer = new ApiSerializer();
+			var result = serializer.ToJson(shipment);
+			Assert.AreEqual(expected, result);
 		}
 	}
 }

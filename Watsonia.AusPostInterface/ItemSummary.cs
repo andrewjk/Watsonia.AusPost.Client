@@ -35,5 +35,15 @@ namespace Watsonia.AusPostInterface
 		/// The status.
 		/// </value>
 		public string Status { get; set; }
+
+		/// <summary>
+		/// Loads a ItemSummary from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static ItemSummary FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<ItemSummary>(json);
+		}
 	}
 }

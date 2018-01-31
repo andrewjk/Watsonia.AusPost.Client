@@ -31,5 +31,15 @@ namespace Watsonia.AusPostInterface
 		{
 			this.ShipmentID = shipmentID;
 		}
+
+		/// <summary>
+		/// Loads a ShipmentReference from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static ShipmentReference FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<ShipmentReference>(json);
+		}
 	}
 }

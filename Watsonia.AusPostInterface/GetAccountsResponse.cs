@@ -139,5 +139,15 @@ namespace Watsonia.AusPostInterface
 		///   <c>true</c> if [credit blocked]; otherwise, <c>false</c>.
 		/// </value>
 		public bool CreditBlocked { get; set; }
+
+		/// <summary>
+		/// Loads a GetAccountsResponse from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static GetAccountsResponse FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<GetAccountsResponse>(json);
+		}
 	}
 }

@@ -33,5 +33,15 @@ namespace Watsonia.AusPostInterface
 		{
 			this.OrderID = orderID;
 		}
+
+		/// <summary>
+		/// Loads a GetOrderSummaryRequest from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static GetOrderSummaryRequest FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<GetOrderSummaryRequest>(json);
+		}
 	}
 }

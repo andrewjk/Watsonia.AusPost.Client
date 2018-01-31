@@ -24,5 +24,15 @@ namespace Watsonia.AusPostInterface
 		{
 			this.Shipments.AddRange(shipments);
 		}
+
+		/// <summary>
+		/// Loads a CreateShipmentsRequest from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static CreateShipmentsRequest FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<CreateShipmentsRequest>(json);
+		}
 	}
 }

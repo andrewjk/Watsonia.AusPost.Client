@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,9 +13,9 @@ namespace Watsonia.AusPostInterface
 	public enum LabelGroup
 	{
 		None,
-		[JsonEnumName("Parcel Post")]
+		[DataMember(Name = "Parcel Post")]
 		ParcelPost,
-		[JsonEnumName("Express Post")]
+		[DataMember(Name = "Express Post")]
 		ExpressPost,
 		StarTrack
 	}

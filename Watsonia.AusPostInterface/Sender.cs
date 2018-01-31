@@ -143,5 +143,15 @@ namespace Watsonia.AusPostInterface
 		/// </value>
 		[StringLength(50)]
 		public string Email { get; set; }
+
+		/// <summary>
+		/// Loads a Sender from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static Sender FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<Sender>(json);
+		}
 	}
 }

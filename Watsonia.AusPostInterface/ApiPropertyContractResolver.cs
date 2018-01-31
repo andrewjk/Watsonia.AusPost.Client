@@ -11,7 +11,7 @@ namespace Watsonia.AusPostInterface
 	/// Resolves property names to the underscored version expected by the Australia Post API.
 	/// </summary>
 	/// <seealso cref="Newtonsoft.Json.Serialization.DefaultContractResolver" />
-	public sealed class JsonPropertyContractResolver : DefaultContractResolver
+	internal sealed class ApiPropertyContractResolver : DefaultContractResolver
 	{
 		/// <summary>
 		/// Resolves the name of the property.

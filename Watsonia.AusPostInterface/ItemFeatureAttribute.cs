@@ -19,5 +19,15 @@ namespace Watsonia.AusPostInterface
 		/// The cover amount.
 		/// </value>
 		public decimal CoverAmount { get; set; }
+
+		/// <summary>
+		/// Loads a ItemFeatureAttribute from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static ItemFeatureAttribute FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<ItemFeatureAttribute>(json);
+		}
 	}
 }

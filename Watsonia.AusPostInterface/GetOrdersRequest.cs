@@ -49,5 +49,15 @@ namespace Watsonia.AusPostInterface
 		//{
 		//	this.OrderIDs.AddRange(orderIDs);
 		//}
+
+		/// <summary>
+		/// Loads a GetOrdersRequest from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static GetOrdersRequest FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<GetOrdersRequest>(json);
+		}
 	}
 }

@@ -47,5 +47,15 @@ namespace Watsonia.AusPostInterface
 		/// The tracking summary.
 		/// </value>
 		public Dictionary<string, int> TrackingSummary { get; set; } = new Dictionary<string, int>();
+
+		/// <summary>
+		/// Loads a OrderSummary from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static OrderSummary FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<OrderSummary>(json);
+		}
 	}
 }

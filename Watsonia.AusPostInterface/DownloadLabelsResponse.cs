@@ -80,5 +80,15 @@ namespace Watsonia.AusPostInterface
 				this.Stream.CopyTo(fileStream);
 			}
 		}
+
+		/// <summary>
+		/// Loads a DownloadLabelsResponse from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static DownloadLabelsResponse FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<DownloadLabelsResponse>(json);
+		}
 	}
 }

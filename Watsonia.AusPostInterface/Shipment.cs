@@ -128,5 +128,15 @@ namespace Watsonia.AusPostInterface
 		/// The items.
 		/// </value>
 		public List<Item> Items { get; set; } = new List<Item>();
+
+		/// <summary>
+		/// Loads a Shipment from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static Shipment FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<Shipment>(json);
+		}
 	}
 }

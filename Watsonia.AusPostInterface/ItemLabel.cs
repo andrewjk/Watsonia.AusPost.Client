@@ -16,5 +16,15 @@ namespace Watsonia.AusPostInterface
 		public string[] Errors { get; set; }
 
 		public string LabelCreationDate { get; set; }
+
+		/// <summary>
+		/// Loads a ItemLabel from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static ItemLabel FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<ItemLabel>(json);
+		}
 	}
 }

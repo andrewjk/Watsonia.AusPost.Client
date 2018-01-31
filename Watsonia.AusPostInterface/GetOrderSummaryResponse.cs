@@ -80,5 +80,15 @@ namespace Watsonia.AusPostInterface
 				this.Stream.CopyTo(fileStream);
 			}
 		}
+
+		/// <summary>
+		/// Loads a GetOrderSummaryResponse from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static GetOrderSummaryResponse FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<GetOrderSummaryResponse>(json);
+		}
 	}
 }

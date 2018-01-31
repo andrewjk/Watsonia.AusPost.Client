@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,22 +15,22 @@ namespace Watsonia.AusPostInterface
 		/// <summary>
 		/// Not set.
 		/// </summary>
-		[JsonEnumName("NONE")]
+		[DataMember(Name = "NONE")]
 		None,
 		/// <summary>
 		/// An Australia Post Parcel Locker.
 		/// </summary>
-		[JsonEnumName("PARCEL_LOCKER")]
+		[DataMember(Name = "PARCEL_LOCKER")]
 		ParcelLocker,
 		/// <summary>
 		/// An Australia Post Parcel Collection location.
 		/// </summary>
-		[JsonEnumName("PARCEL_COLLECT")]
+		[DataMember(Name = "PARCEL_COLLECT")]
 		ParcelCollect,
 		/// <summary>
 		/// A normal delivery address.
 		/// </summary>
-		[JsonEnumName("STANDARD_ADDRESS")]
+		[DataMember(Name = "STANDARD_ADDRESS")]
 		StandardAddress
 	}
 }

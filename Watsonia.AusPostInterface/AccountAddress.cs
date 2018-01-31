@@ -59,5 +59,15 @@ namespace Watsonia.AusPostInterface
 		/// The country.
 		/// </value>
 		public string Country { get; set; }
+
+		/// <summary>
+		/// Loads a AccountAddress from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static AccountAddress FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<AccountAddress>(json);
+		}
 	}
 }

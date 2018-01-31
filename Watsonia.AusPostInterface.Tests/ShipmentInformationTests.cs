@@ -75,8 +75,9 @@ namespace Watsonia.AusPostInterface.Tests
       },
   }
 }".Trim();
-			var item = new ShipmentInformation();
-			item.FromJson(json);
+			
+			var serializer = new ApiSerializer();
+			var item = serializer.FromJson<ShipmentInformation>(json);
 
 			Assert.AreEqual("9lesEAOvOm4AAAFI3swaDRYB", item.ShipmentID);
 			Assert.AreEqual("XYZ-001-01", item.ShipmentReference);

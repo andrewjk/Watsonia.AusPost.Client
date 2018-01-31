@@ -42,5 +42,15 @@ namespace Watsonia.AusPostInterface
 		/// The context.
 		/// </value>
 		public Dictionary<string, string> Context { get; set; } = new Dictionary<string, string>();
+
+		/// <summary>
+		/// Loads a ShipmentErrorResponse from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static ShipmentErrorResponse FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<ShipmentErrorResponse>(json);
+		}
 	}
 }

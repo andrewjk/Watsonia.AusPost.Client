@@ -47,5 +47,15 @@ namespace Watsonia.AusPostInterface
 		/// The payment method.
 		/// </value>
 		public string PaymentMethod { get; set; }
+
+		/// <summary>
+		/// Loads a OrderInformation from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static OrderInformation FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<OrderInformation>(json);
+		}
 	}
 }

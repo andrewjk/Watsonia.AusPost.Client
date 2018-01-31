@@ -94,5 +94,15 @@ namespace Watsonia.AusPostInterface
 		/// The order identifier.
 		/// </value>
 		public string OrderID { get; set; }
+
+		/// <summary>
+		/// Loads a ShipmentInformation from a JSON string.
+		/// </summary>
+		/// <param name="json">The json.</param>
+		public static ShipmentInformation FromJson(string json)
+		{
+			var serializer = new ApiSerializer();
+			return serializer.FromJson<ShipmentInformation>(json);
+		}
 	}
 }

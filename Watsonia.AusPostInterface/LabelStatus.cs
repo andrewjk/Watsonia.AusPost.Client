@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,22 +19,22 @@ namespace Watsonia.AusPostInterface
 		/// <summary>
 		/// Labels are being generated.
 		/// </summary>
-		[JsonEnumName("PENDING")]
+		[DataMember(Name = "PENDING")]
 		Pending,
 		/// <summary>
 		/// Label generation failed.
 		/// </summary>
-		[JsonEnumName("ERROR")]
+		[DataMember(Name = "ERROR")]
 		Error,
 		/// <summary>
 		/// Label generation has completed.
 		/// </summary>
-		[JsonEnumName("AVAILABLE")]
+		[DataMember(Name = "AVAILABLE")]
 		Available,
 		/// <summary>
 		/// The labels have expired.
 		/// </summary>
-		[JsonEnumName("EXPIRED")]
+		[DataMember(Name = "EXPIRED")]
 		Expired
 	}
 }
