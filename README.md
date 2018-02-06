@@ -15,6 +15,7 @@ Functions are implemented in the ShippingClient class and include:
 * CreateOrderIncludingShipmentsAsync
 * CreateLabelsAsync
 * DownloadLabelsAsync
+* GetOrdersAsync
 * GetShipmentsAsync
 * GetOrderSummaryAsync
 
