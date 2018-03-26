@@ -14,9 +14,9 @@ namespace Watsonia.AusPost.Client.Tests
 		[TestMethod]
 		public async Task CreateShipments()
 		{
-			string accountNumber = ConfigurationManager.AppSettings["AusPostAccountNumber"];
-			string username = ConfigurationManager.AppSettings["AusPostUsername"];
-			string password = ConfigurationManager.AppSettings["AusPostPassword"];
+			string accountNumber = AppConfiguration.AusPostAccountNumber;
+			string username = AppConfiguration.AusPostUsername;
+			string password = AppConfiguration.AusPostPassword;
 
 			var client = new ShippingClient(accountNumber, username, password);
 			client.Testing = true;
@@ -34,9 +34,9 @@ namespace Watsonia.AusPost.Client.Tests
 		[TestMethod]
 		public async Task CreateShipmentsWithError()
 		{
-			string accountNumber = ConfigurationManager.AppSettings["AusPostAccountNumber"];
-			string username = ConfigurationManager.AppSettings["AusPostUsername"];
-			string password = ConfigurationManager.AppSettings["AusPostPassword"];
+			string accountNumber = AppConfiguration.AusPostAccountNumber;
+			string username = AppConfiguration.AusPostUsername;
+			string password = AppConfiguration.AusPostPassword;
 
 			var client = new ShippingClient(accountNumber, username, password);
 			client.Testing = true;
