@@ -84,16 +84,14 @@ namespace Watsonia.AusPost.Client
 
 		private static IEnumerable<Tuple<object, string>> GetOutputMap(Type type)
 		{
-			IEnumerable<Tuple<object, string>> enumOutputLookup = null;
-			if (!_typeNameCache.TryGetValue(type, out enumOutputLookup))
+			if (!_typeNameCache.TryGetValue(type, out IEnumerable<Tuple<object, string>> enumOutputLookup))
 			{
 				// Index the type naively - it's unlikely we'll have more than a handful of
 				// enum values per type
 				List<Tuple<object, string>> outputNames = new List<Tuple<object, string>>();
 				foreach (var field in type.GetFields(BindingFlags.Static | BindingFlags.Public))
 				{
-					var dataMemberAttribute = Attribute.GetCustomAttribute(field, typeof(DataMemberAttribute)) as DataMemberAttribute;
-					if (dataMemberAttribute != null && !string.IsNullOrWhiteSpace(dataMemberAttribute.Name))
+					if (Attribute.GetCustomAttribute(field, typeof(DataMemberAttribute)) is DataMemberAttribute dataMemberAttribute && !string.IsNullOrWhiteSpace(dataMemberAttribute.Name))
 					{
 						outputNames.Add(new Tuple<object, string>(field.GetValue(null), dataMemberAttribute.Name));
 					}

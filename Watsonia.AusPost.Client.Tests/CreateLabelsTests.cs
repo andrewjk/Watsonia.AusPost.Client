@@ -114,8 +114,10 @@ namespace Watsonia.AusPost.Client.Tests
 
 		private CreateLabelsRequest CreateCreateLabelsRequest(string shipmentID)
 		{
-			var preferences = new List<LabelPreference>();
-			preferences.Add(new LabelPreference());
+			var preferences = new List<LabelPreference>
+			{
+				new LabelPreference()
+			};
 			preferences[0].Groups.Add(new LabelAttributes()
 			{
 				Group = LabelGroup.ParcelPost,
@@ -133,8 +135,10 @@ namespace Watsonia.AusPost.Client.Tests
 				TopOffset = 0
 			});
 
-			var shipments = new List<ShipmentReference>();
-			shipments.Add(new ShipmentReference(shipmentID));
+			var shipments = new List<ShipmentReference>
+			{
+				new ShipmentReference(shipmentID)
+			};
 
 			return new CreateLabelsRequest(preferences, shipments);
 		}
