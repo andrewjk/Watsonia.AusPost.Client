@@ -25,7 +25,7 @@ namespace Watsonia.AusPost.Client.Tests
 
 			var createOrderResponse = await client.CreateOrderIncludingShipmentsAsync(createOrderRequest);
 
-			Assert.AreEqual(true, createOrderResponse.Succeeded);
+			Assert.AreEqual(true, createOrderResponse.Succeeded, string.Join(", ", createOrderResponse.Errors.Select(e => e.Message)));
 			Assert.AreEqual(true, !string.IsNullOrEmpty(createOrderResponse.Order.OrderID));
 			Assert.AreEqual(0, createOrderResponse.Errors.Count);
 			Assert.AreEqual(0, createOrderResponse.Warnings.Count);

@@ -23,7 +23,7 @@ namespace Watsonia.AusPost.Client.Tests
 
 			var getAccountsResponse = await client.GetAccountsAsync();
 
-			Assert.AreEqual(true, getAccountsResponse.Succeeded);
+			Assert.AreEqual(true, getAccountsResponse.Succeeded, string.Join(", ", getAccountsResponse.Errors.Select(e => e.Message)));
 			Assert.AreEqual(1, getAccountsResponse.Addresses.Count);
 			Assert.AreEqual(0, getAccountsResponse.Errors.Count);
 			Assert.AreEqual(0, getAccountsResponse.Warnings.Count);

@@ -25,7 +25,7 @@ namespace Watsonia.AusPost.Client.Tests
 
 			var createOrderResponse = await client.CreateOrderIncludingShipmentsAsync(createOrderRequest);
 
-			Assert.AreEqual(true, createOrderResponse.Succeeded);
+			Assert.AreEqual(true, createOrderResponse.Succeeded, string.Join(", ", createOrderResponse.Errors.Select(e => e.Message)));
 			Assert.AreEqual(true, !string.IsNullOrEmpty(createOrderResponse.Order.OrderID));
 			Assert.AreEqual(0, createOrderResponse.Errors.Count);
 			Assert.AreEqual(0, createOrderResponse.Warnings.Count);
@@ -34,7 +34,7 @@ namespace Watsonia.AusPost.Client.Tests
 
 			var getShipmentsResponse = await client.GetShipmentsAsync(getShipmentsRequest);
 
-			Assert.AreEqual(true, getShipmentsResponse.Succeeded);
+			Assert.AreEqual(true, getShipmentsResponse.Succeeded, string.Join(", ", getShipmentsResponse.Errors.Select(e => e.Message)));
 			Assert.AreEqual(2, getShipmentsResponse.Shipments.Count);
 			Assert.AreEqual(0, getShipmentsResponse.Errors.Count);
 			Assert.AreEqual(0, getShipmentsResponse.Warnings.Count);
@@ -54,7 +54,7 @@ namespace Watsonia.AusPost.Client.Tests
 
 			var createOrderResponse = await client.CreateOrderIncludingShipmentsAsync(createOrderRequest);
 
-			Assert.AreEqual(true, createOrderResponse.Succeeded);
+			Assert.AreEqual(true, createOrderResponse.Succeeded, string.Join(", ", createOrderResponse.Errors.Select(e => e.Message)));
 			Assert.AreEqual(true, !string.IsNullOrEmpty(createOrderResponse.Order.OrderID));
 			Assert.AreEqual(0, createOrderResponse.Errors.Count);
 			Assert.AreEqual(0, createOrderResponse.Warnings.Count);
@@ -69,7 +69,7 @@ namespace Watsonia.AusPost.Client.Tests
 			// NOTE: With only one invalid shipment ID, this returns true with no errors
 			// With two invalid shipment IDs, this returns true with two errors
 			// Both responses seem not quite right, but I'm testing it as is. It might change in future
-			Assert.AreEqual(true, getShipmentsResponse.Succeeded);
+			Assert.AreEqual(true, getShipmentsResponse.Succeeded, string.Join(", ", getShipmentsResponse.Errors.Select(e => e.Message)));
 			Assert.AreEqual(1, getShipmentsResponse.Shipments.Count);
 			Assert.AreEqual(0, getShipmentsResponse.Errors.Count);
 			Assert.AreEqual(0, getShipmentsResponse.Warnings.Count);

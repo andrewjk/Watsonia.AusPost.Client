@@ -25,7 +25,7 @@ namespace Watsonia.AusPost.Client.Tests
 
 			var createOrderResponse = await client.CreateOrderIncludingShipmentsAsync(createOrderRequest);
 
-			Assert.AreEqual(true, createOrderResponse.Succeeded);
+			Assert.AreEqual(true, createOrderResponse.Succeeded, string.Join(", ", createOrderResponse.Errors.Select(e => e.Message)));
 			Assert.AreEqual(true, !string.IsNullOrEmpty(createOrderResponse.Order.OrderID));
 			Assert.AreEqual(0, createOrderResponse.Errors.Count);
 			Assert.AreEqual(0, createOrderResponse.Warnings.Count);
@@ -36,7 +36,7 @@ namespace Watsonia.AusPost.Client.Tests
 
 			// HACK: We are creating a lot of test orders, and there's no way to filter the orders as
 			// far as I can see, so we just have to make sure there is at least one matching order
-			Assert.AreEqual(true, getOrdersResponse.Succeeded);
+			Assert.AreEqual(true, getOrdersResponse.Succeeded, string.Join(", ", getOrdersResponse.Errors.Select(e => e.Message)));
 			Assert.IsTrue(getOrdersResponse.Orders.Any(o => o.OrderReference == "XYZ789"));
 			Assert.AreEqual(0, getOrdersResponse.Errors.Count);
 			Assert.AreEqual(0, getOrdersResponse.Warnings.Count);
@@ -57,7 +57,7 @@ namespace Watsonia.AusPost.Client.Tests
 
 		//	var createOrderResponse = await client.CreateOrderIncludingShipmentsAsync(createOrderRequest);
 
-		//	Assert.AreEqual(true, createOrderResponse.Succeeded);
+		//	Assert.AreEqual(true, createOrderResponse.Succeeded, string.Join(", ", createOrderResponse.Errors.Select(e => e.Message)));
 		//	Assert.AreEqual(true, !string.IsNullOrEmpty(createOrderResponse.Order.OrderID));
 		//	Assert.AreEqual(0, createOrderResponse.Errors.Count);
 		//	Assert.AreEqual(0, createOrderResponse.Warnings.Count);
@@ -72,7 +72,7 @@ namespace Watsonia.AusPost.Client.Tests
 		//	// NOTE: With only one invalid shipment ID, this returns true with no errors
 		//	// With two invalid shipment IDs, this returns true with two errors
 		//	// Both responses seem not quite right, but I'm testing it as is. It might change in future
-		//	Assert.AreEqual(true, getOrdersResponse.Succeeded);
+		//	Assert.AreEqual(true, getOrdersResponse.Succeeded, string.Join(", ", getOrdersResponse.Errors.Select(e => e.Message)));
 		//	Assert.IsTrue(getOrdersResponse.Orders.Any(o => o.OrderReference = "XYZ789"));
 		//	Assert.AreEqual(0, getOrdersResponse.Errors.Count);
 		//	Assert.AreEqual(0, getOrdersResponse.Warnings.Count);

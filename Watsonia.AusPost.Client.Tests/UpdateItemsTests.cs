@@ -25,7 +25,7 @@ namespace Watsonia.AusPost.Client.Tests
 
 			var createResponse = await client.CreateShipmentsAsync(createRequest);
 			
-			Assert.AreEqual(true, createResponse.Succeeded);
+			Assert.AreEqual(true, createResponse.Succeeded, string.Join(", ", createResponse.Errors.Select(e => e.Message)));
 			Assert.AreEqual(1, createResponse.Shipments.Count);
 			Assert.AreEqual(1, createResponse.Shipments[0].Items.Count);
 
@@ -34,7 +34,7 @@ namespace Watsonia.AusPost.Client.Tests
 			var updateResponse = await client.UpdateItemsAsync(createResponse.Shipments[0].ShipmentID, updateRequest);
 
 			// NOTE: This doesn't return anything other than a general success or fail
-			Assert.AreEqual(true, updateResponse.Succeeded);
+			Assert.AreEqual(true, updateResponse.Succeeded, string.Join(", ", updateResponse.Errors.Select(e => e.Message)));
 			Assert.AreEqual(0, createResponse.Errors.Count);
 			Assert.AreEqual(0, createResponse.Warnings.Count);
 		}
@@ -53,7 +53,7 @@ namespace Watsonia.AusPost.Client.Tests
 
 			var createResponse = await client.CreateShipmentsAsync(createRequest);
 
-			Assert.AreEqual(true, createResponse.Succeeded);
+			Assert.AreEqual(true, createResponse.Succeeded, string.Join(", ", createResponse.Errors.Select(e => e.Message)));
 			Assert.AreEqual(1, createResponse.Shipments.Count);
 			Assert.AreEqual(1, createResponse.Shipments[0].Items.Count);
 

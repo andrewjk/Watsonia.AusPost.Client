@@ -36,7 +36,7 @@ namespace Watsonia.AusPost.Client.Tests
 
 			var createShipmentsResponse = await client.CreateShipmentsAsync(createShipmentsRequest);
 
-			Assert.AreEqual(true, createShipmentsResponse.Succeeded);
+			Assert.AreEqual(true, createShipmentsResponse.Succeeded, string.Join(", ", createShipmentsResponse.Errors.Select(e => e.Message)));
 			Assert.AreEqual(1, createShipmentsResponse.Shipments.Count);
 			Assert.AreEqual(1, createShipmentsResponse.Shipments[0].Items.Count);
 
@@ -44,7 +44,7 @@ namespace Watsonia.AusPost.Client.Tests
 
 			var updateResponse = await client.CreateLabelsAsync(updateRequest);
 
-			Assert.AreEqual(true, updateResponse.Succeeded);
+			Assert.AreEqual(true, updateResponse.Succeeded, string.Join(", ", updateResponse.Errors.Select(e => e.Message)));
 			Assert.AreEqual(1, updateResponse.Labels.Count);
 			Assert.AreEqual(LabelStatus.Pending, updateResponse.Labels[0].Status);
 			Assert.AreEqual(0, createShipmentsResponse.Errors.Count);
@@ -57,7 +57,7 @@ namespace Watsonia.AusPost.Client.Tests
 
 			var getShipmentsResponse = await client.GetShipmentsAsync(getShipmentsRequest);
 
-			Assert.AreEqual(true, getShipmentsResponse.Succeeded);
+			Assert.AreEqual(true, getShipmentsResponse.Succeeded, string.Join(", ", getShipmentsResponse.Errors.Select(e => e.Message)));
 			Assert.AreEqual(1, getShipmentsResponse.Shipments.Count);
 			Assert.IsTrue(!string.IsNullOrEmpty(getShipmentsResponse.Shipments[0].Items[0].Label.LabelUrl));
 			Assert.AreEqual(0, getShipmentsResponse.Errors.Count);
@@ -67,7 +67,7 @@ namespace Watsonia.AusPost.Client.Tests
 			string pdfFile = folder + "\\labels.pdf";
 			Assert.IsFalse(System.IO.File.Exists(pdfFile));
 			var downloadResponse = await client.DownloadLabelsAsync(getShipmentsResponse.Shipments[0].Items[0].Label.LabelUrl);
-			Assert.AreEqual(true, downloadResponse.Succeeded);
+			Assert.AreEqual(true, downloadResponse.Succeeded, string.Join(", ", downloadResponse.Errors.Select(e => e.Message)));
 
 			downloadResponse.SaveToFile(pdfFile);
 			Assert.IsTrue(System.IO.File.Exists(pdfFile));
