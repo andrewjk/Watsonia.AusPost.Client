@@ -34,7 +34,15 @@ namespace Watsonia.AusPost.Client
 		/// The message.
 		/// </value>
 		public string Message { get; set; }
-		
+
+		/// <summary>
+		/// The request field that is in error.
+		/// </summary>
+		/// <value>
+		/// The field.
+		/// </value>
+		public string Field { get; set; }
+
 		/// <summary>
 		/// A map of values that attempts to highlight important information that may have caused the error. This may or may not be populated depending on the type of error. 
 		/// </summary>

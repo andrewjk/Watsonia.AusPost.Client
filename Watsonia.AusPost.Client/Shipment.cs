@@ -114,12 +114,20 @@ namespace Watsonia.AusPost.Client
 		public Recipient To { get; set; } = new Recipient();
 
 		/// <summary>
-		/// Use "DESPATCH" to indicate an outbound or normal shipment (this is the default) or "RETURN" to indicate a returns shipment.
+		/// Use "DESPATCH" to indicate an outbound or normal shipment (this is the default), "RETURN" to indicate a returns shipment, "TRANSFER" to indicate a transfer. "TRANSFER" is only available for StarTrack products.
 		/// </summary>
 		/// <value>
 		/// The type of the movement.
 		/// </value>
 		public MovementType MovementType { get; set; }
+
+		/// <summary>
+		/// The merchant's internal reference ID for a returns or transfer shipment. This is mandatory for StarTrack if MovementType is "RETURN" and "TRANSFER".
+		/// </summary>
+		/// <value>
+		/// The authorisation number.
+		/// </value>
+		public string AuthorisationNumber { get; set; }
 
 		/// <summary>
 		/// An item element to be supplied for each parcel.

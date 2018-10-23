@@ -7,13 +7,11 @@ using System.Threading.Tasks;
 
 namespace Watsonia.AusPost.Client
 {
-	public enum MovementType
+	public enum NonDeliveryAction
 	{
-		[DataMember(Name = "DESPATCH")]
-		Despatch,
 		[DataMember(Name = "RETURN")]
 		Return,
-		[DataMember(Name = "TRANSFER")]
-		Transfer
+		[DataMember(Name = "ABANDONED")]
+		Abandoned
 	}
 }

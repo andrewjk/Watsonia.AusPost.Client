@@ -13,7 +13,15 @@ namespace Watsonia.AusPost.Client
 	public sealed class ItemFeature : ApiItem
 	{
 		/// <summary>
-		/// Additional information about the feature. Please note that attributes depend on the feature. 
+		/// Name of additional feature. Eg: DELIVERY_DATE, DELIVERY_TIMES, PICKUP_DATE, PICKUP_TIME COMMERCIAL_CLEARANCE.
+		/// </summary>
+		/// <value>
+		/// The name.
+		/// </value>
+		public string Name { get; set; }
+
+		/// <summary>
+		/// Additional information about the feature. Please note that attributes depend on the feature. Please refer to Shipment Features.
 		/// </summary>
 		/// <value>
 		/// The attributes.
