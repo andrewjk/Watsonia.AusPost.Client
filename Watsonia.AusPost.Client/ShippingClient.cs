@@ -9,7 +9,7 @@ namespace Watsonia.AusPost.Client
 {
 	public class ShippingClient
 	{
-		private const string TestingUrl = "https://digitalapi.auspost.com.au/testbed/shipping/v1/";
+		private const string TestingUrl = "https://digitalapi.auspost.com.au/test/shipping/v1/";
 		private const string LiveUrl = "https://digitalapi.auspost.com.au/shipping/v1/";
 
 		private string _accountNumber;
@@ -127,7 +127,7 @@ namespace Watsonia.AusPost.Client
 
 				// Read the response
 				// TODO: I may actually need to do different things if the status code comes back as e.g. NotFound?
-				if (response.StatusCode == System.Net.HttpStatusCode.OK)
+				if (response.StatusCode == System.Net.HttpStatusCode.Created)
 				{
 					var result = new UpdateItemsResponse();
 					result.Succeeded = true;
