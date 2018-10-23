@@ -11,7 +11,7 @@ namespace Watsonia.AusPost.Client.Tests
 		{
 			var item = new Item();
 			item.ItemReference = "SKU-1";
-			item.ProductID = "T28S";
+			item.ProductID = "7E55";
 			item.Length = 10;
 			item.Width = 10;
 			item.Height = 10;
@@ -19,12 +19,12 @@ namespace Watsonia.AusPost.Client.Tests
 			item.AuthorityToLeave = false;
 			item.AllowPartialDelivery = true;
 			item.Features.Add("TRANSIT_COVER", new ItemFeature());
-			item.Features["TRANSIT_COVER"].Attributes.CoverAmount = 1000;
+			item.Features["TRANSIT_COVER"].Attributes.CoverAmount = 500;
 
 			var expected = @"
 {
   ""item_reference"": ""SKU-1"",
-  ""product_id"": ""T28S"",
+  ""product_id"": ""7E55"",
   ""length"": 10.0,
   ""width"": 10.0,
   ""height"": 10.0,
@@ -34,7 +34,7 @@ namespace Watsonia.AusPost.Client.Tests
   ""features"": {
     ""TRANSIT_COVER"": {
       ""attributes"": {
-        ""cover_amount"": 1000.0
+        ""cover_amount"": 500.0
       }
     }
   }

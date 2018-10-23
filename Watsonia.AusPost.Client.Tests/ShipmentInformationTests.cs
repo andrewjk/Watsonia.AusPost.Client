@@ -29,7 +29,7 @@ namespace Watsonia.AusPost.Client.Tests
         ""article_id"": ""ABC000128B4C5"",
         ""consignment_id"": ""ABC000128""
       },
-      ""product_id"": ""T28S"",
+      ""product_id"": ""7E55"",
       ""item_summary"": {
         ""total_cost"": 5,
         ""total_gst"": 0.45,
@@ -43,7 +43,7 @@ namespace Watsonia.AusPost.Client.Tests
         ""article_id"": ""ABC000128B4C6"",
         ""consignment_id"": ""ABC000128""
       },
-      ""product_id"": ""T28S"",
+      ""product_id"": ""7E55"",
       ""item_summary"": {
         ""total_cost"": 4,
         ""total_gst"": 0.36,
@@ -57,7 +57,7 @@ namespace Watsonia.AusPost.Client.Tests
         ""article_id"": ""ABC000128B4C7"",
         ""consignment_id"": ""ABC000128""
       },
-      ""product_id"": ""T28S"",
+      ""product_id"": ""7E55"",
       ""item_summary"": {
         ""total_cost"": 4,
         ""total_gst"": 0.36,
@@ -97,7 +97,7 @@ namespace Watsonia.AusPost.Client.Tests
 			Assert.IsNotNull(item.Items[0].TrackingDetails);
 			Assert.AreEqual("ABC000128B4C5", item.Items[0].TrackingDetails.ArticleID);
 			Assert.AreEqual("ABC000128", item.Items[0].TrackingDetails.ConsignmentID);
-			Assert.AreEqual("T28S", item.Items[0].ProductID);
+			Assert.AreEqual("7E55", item.Items[0].ProductID);
 			Assert.IsNotNull(item.Items[0].ItemSummary);
 			Assert.AreEqual(5, item.Items[0].ItemSummary.TotalCost);
 			Assert.AreEqual(0.45m, item.Items[0].ItemSummary.TotalGst);
@@ -108,7 +108,7 @@ namespace Watsonia.AusPost.Client.Tests
 			Assert.IsNotNull(item.Items[1].TrackingDetails);
 			Assert.AreEqual("ABC000128B4C6", item.Items[1].TrackingDetails.ArticleID);
 			Assert.AreEqual("ABC000128", item.Items[1].TrackingDetails.ConsignmentID);
-			Assert.AreEqual("T28S", item.Items[1].ProductID);
+			Assert.AreEqual("7E55", item.Items[1].ProductID);
 			Assert.IsNotNull(item.Items[1].ItemSummary);
 			Assert.AreEqual(4, item.Items[1].ItemSummary.TotalCost);
 			Assert.AreEqual(0.36m, item.Items[1].ItemSummary.TotalGst);
@@ -119,7 +119,7 @@ namespace Watsonia.AusPost.Client.Tests
 			Assert.IsNotNull(item.Items[2].TrackingDetails);
 			Assert.AreEqual("ABC000128B4C7", item.Items[2].TrackingDetails.ArticleID);
 			Assert.AreEqual("ABC000128", item.Items[2].TrackingDetails.ConsignmentID);
-			Assert.AreEqual("T28S", item.Items[2].ProductID);
+			Assert.AreEqual("7E55", item.Items[2].ProductID);
 			Assert.IsNotNull(item.Items[2].ItemSummary);
 			Assert.AreEqual(4, item.Items[2].ItemSummary.TotalCost);
 			Assert.AreEqual(0.36m, item.Items[2].ItemSummary.TotalGst);

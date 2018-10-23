@@ -29,7 +29,7 @@ namespace Watsonia.AusPost.Client.Tests
 			Assert.AreEqual(1, createResponse.Shipments.Count);
 			Assert.AreEqual(2, createResponse.Shipments[0].Items.Count);
 
-			var updateResponse = await client.DeleteItemAsync(createResponse.Shipments[0].ShipmentID, createResponse.Shipments[0].Items[0].ItemID);
+			var updateResponse = await client.DeleteItemAsync(createResponse.Shipments[0].ShipmentID, createResponse.Shipments[0].Items.First(i => i.ItemReference == "SKU-1").ItemID);
 
 			// NOTE: This doesn't return anything other than a general success or fail
 			Assert.AreEqual(true, updateResponse.Succeeded, string.Join(", ", updateResponse.Errors.Select(e => e.Message)));
@@ -101,7 +101,7 @@ namespace Watsonia.AusPost.Client.Tests
 
 			var item1 = new Item();
 			item1.ItemReference = "SKU-1";
-			item1.ProductID = "T28S";
+			item1.ProductID = "7E55";
 			item1.Length = 10;
 			item1.Height = 10;
 			item1.Width = 10;
@@ -109,12 +109,12 @@ namespace Watsonia.AusPost.Client.Tests
 			item1.AuthorityToLeave = false;
 			item1.AllowPartialDelivery = true;
 			item1.Features.Add("TRANSIT_COVER", new ItemFeature());
-			item1.Features["TRANSIT_COVER"].Attributes.CoverAmount = 1000;
+			item1.Features["TRANSIT_COVER"].Attributes.CoverAmount = 500;
 			shipment.Items.Add(item1);
 
 			var item2 = new Item();
 			item2.ItemReference = "SKU-2";
-			item2.ProductID = "T28S";
+			item2.ProductID = "7E55";
 			item2.Length = 10;
 			item2.Height = 10;
 			item2.Width = 10;

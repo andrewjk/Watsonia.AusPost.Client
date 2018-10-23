@@ -100,7 +100,7 @@ namespace Watsonia.AusPost.Client.Tests
 
 			var item1 = new Item();
 			item1.ItemReference = "SKU-1";
-			item1.ProductID = "T28S";
+			item1.ProductID = "7E55";
 			item1.Length = 10;
 			item1.Height = 10;
 			item1.Width = 10;
@@ -108,7 +108,7 @@ namespace Watsonia.AusPost.Client.Tests
 			item1.AuthorityToLeave = false;
 			item1.AllowPartialDelivery = true;
 			item1.Features.Add("TRANSIT_COVER", new ItemFeature());
-			item1.Features["TRANSIT_COVER"].Attributes.CoverAmount = 1000;
+			item1.Features["TRANSIT_COVER"].Attributes.CoverAmount = 500;
 			shipment.Items.Add(item1);
 
 			return new CreateShipmentsRequest(shipment);
