@@ -12,9 +12,9 @@ namespace Watsonia.AusPost.Client
 		private const string TestingUrl = "https://digitalapi.auspost.com.au/test/shipping/v1/";
 		private const string LiveUrl = "https://digitalapi.auspost.com.au/shipping/v1/";
 
-		private string _accountNumber;
-		private string _username;
-		private string _password;
+		private readonly string _accountNumber;
+		private readonly string _username;
+		private readonly string _password;
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this instance is making requests against the testbed.

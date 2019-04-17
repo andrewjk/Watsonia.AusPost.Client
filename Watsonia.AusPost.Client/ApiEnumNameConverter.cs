@@ -21,7 +21,7 @@ namespace Watsonia.AusPost.Client
 	/// </summary>
 	internal class ApiEnumNameConverter : JsonConverter
 	{
-		private static Dictionary<Type, IEnumerable<Tuple<object, string>>> _typeNameCache =
+		private static readonly Dictionary<Type, IEnumerable<Tuple<object, string>>> _typeNameCache =
 			new Dictionary<Type, IEnumerable<Tuple<object, string>>>();
 
 		public override bool CanConvert(Type objectType)
